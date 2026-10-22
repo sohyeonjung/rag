@@ -97,6 +97,18 @@ P3_HUMAN = "[근거]\n{context}\n\n[기업]\n{company}\n\n[질문]\n{question}"
 BRIEFING_QUESTION = "이 기업의 사업 구조, 주요 연혁, 지배구조·관계회사, 확인된 리스크를 정리해줘."
 
 
+# ── 질문 분해 (고도화: 멀티 쿼리) ───────────────────────────────────────
+class SubQuestions(BaseModel):
+    questions: list[str] = Field(description="독립적으로 검색할 하위 질문. 하나만 묻는 질문이면 원문 그대로 1개")
+
+
+DECOMPOSE_SYSTEM = """너는 검색 질의 분석가다. 사용자 질문이 서로 다른 사실을 둘 이상 묻는지 판단한다.
+- 둘 이상이면 각각을 혼자 읽어도 뜻이 통하는 하위 질문으로 나눈다. 기업명을 각 하위 질문에 넣는다. 최대 3개.
+- 하나만 묻는 질문이면 원문 그대로 1개만 돌려준다. 억지로 나누지 않는다."""
+
+DECOMPOSE_HUMAN = "[기업] {company}\n[질문] {question}"
+
+
 # ── 조건 기반 탐색 (F2011) ─────────────────────────────────────────────
 class ExploreResult(BaseModel):
     stock_codes: list[str] = Field(description="조건에 맞는 기업의 종목코드")
