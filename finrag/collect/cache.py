@@ -40,5 +40,12 @@ def mark_dart(stock_code: str, rcept_no: str) -> None:
     path("collect_cache").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def forget(stock_code: str) -> None:
+    """한 기업의 수집 기록만 지운다 (검증을 처음 상태에서 다시 돌릴 때)."""
+    data = _load()
+    if data.pop(stock_code, None) is not None:
+        path("collect_cache").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def clear() -> None:
     path("collect_cache").unlink(missing_ok=True)

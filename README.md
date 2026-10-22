@@ -5,6 +5,31 @@
 
 > ⚠️ 본 서비스는 공개된 문서를 근거로 정보를 제공하며, 투자 권유나 투자 자문이 아닙니다.
 
+## 결과 한눈에 보기
+
+| 기준 (대표 질문 9개, 같은 모델 gpt-4.1) | LLM만 | RAG |
+| --- | --- | --- |
+| 정답 (사실 정확성 + 모름 인정) | 5/9 | **9/9** |
+| 틀린 내용을 지어냄 | 2건 | **0건** |
+| 확인 가능한 근거 제시 | 0/9 | **9/9** |
+
+자세한 내용: [RAG 전후 비교](docs/eval/rag_comparison.md) · [해석](docs/eval/README.md) · [MMR 비교](docs/eval/mmr_comparison.md)
+
+## 기능
+
+| 구분 | 기능 |
+| --- | --- |
+| 필수 | 기업 100개 선택·검색(별칭 포함) · 기업별 채팅 · 근거 기반 답변과 인용 근거 표시 · 진행 상태·오류·면책 안내 |
+| 특화 (F2010) | 기업 브리핑 카드 · 주장 팩트체크 · 경제·금융 용어 풀이 |
+| 탐색 (F2011) | 자연어 조건으로 기업 찾기 (키워드 + 벡터 후보 → LLM 선별) |
+| 심화 | F2014 MMR 검색 · F2015 RAG 전후 비교 · F2016 위키백과 + DART 공시 + 한국은행 용어집 결합 |
+
+## 문서
+
+- [요구사항 정의서](docs/01_요구사항정의서.md)
+- [RAG 파이프라인 설계문서](docs/02_RAG_파이프라인_설계문서.md)
+- [검증 결과](docs/03_검증결과.md) · [4장 검증 실행 기록](docs/eval/verification_log.md)
+
 ## 구조
 
 ```
@@ -36,7 +61,17 @@ cp .env.example .env                    # 키 채우기
 python scripts/check_gms.py             # GMS 크레딧·채팅·임베딩 점검
 python scripts/build_items.py           # 항목 100개 → data/items.json
 python scripts/index_items.py           # 기업 메타데이터 색인
+python scripts/index_glossary.py        # 한국은행 용어집 색인 (data/raw/ 에 800선 PDF)
 streamlit run app.py
+```
+
+검증·평가
+
+```bash
+python scripts/verify_requirements.py   # 명세서 4장 검증 → docs/eval/verification_log.md
+python scripts/compare_mmr.py           # F2014
+python scripts/eval_rag.py              # F2015 (MODEL_PROFILE=final 모델 사용)
+python -m unittest discover -s tests
 ```
 
 ## 설정
