@@ -123,6 +123,12 @@ class MentionTest(unittest.TestCase):
         self.assertEqual(names("공매도가 뭐야?"), [])
 
 
+class TopicTest(unittest.TestCase):
+    def test_company_name_skips_llm_check(self):
+        from finrag.rag import topic
+        self.assertTrue(topic.check("SK하이닉스", "SK하이닉스 설립일은?").on_topic)  # 키 없이도 통과 = LLM 미호출
+
+
 class MiscTest(unittest.TestCase):
     def test_mask_secrets_hides_query_keys(self):
         os.environ["DART_API_KEY"] = "abc123secret"

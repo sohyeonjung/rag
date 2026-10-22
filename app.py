@@ -15,6 +15,7 @@ from finrag.domain import prompts
 from finrag.domain.companies import ITEM_LABEL, display_name, item_by_code, load_items, mentioned_companies
 from finrag.features.explore import explore
 from finrag.rag.citations import SOURCE_LABELS
+from finrag.rag import topic
 from finrag.rag.graph import ask
 from finrag.store.vectorstore import count
 from finrag.ui_text import safe_md
@@ -199,6 +200,17 @@ if question:
                          on_click=run_later, args=(question, task, mode_label))
         fill_sidebar_stats()
         st.stop()
+
+    # 잡담·서비스 밖 질문은 수집도 답변도 하지 않는다. 그대로 돌리면 근거에서 아무 사실이나 골라 답했다
+    if not forced and task != "briefing":
+        with st.spinner("질문을 확인하는 중..."):
+            verdict = topic.check(item["name"], question)
+        if not verdict.on_topic:
+            log.info("off-topic: %s (%s)", question, verdict.reason)
+            with st.chat_message("assistant"):
+                st.info(prompts.OFF_TOPIC_NOTICE.format(company=item["name"]))
+            fill_sidebar_stats()
+            st.stop()
 
     with st.chat_message("assistant"):
         answer, cited = "", []
