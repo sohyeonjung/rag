@@ -41,6 +41,7 @@ retrieval:
   explore_k: 30             # 조건 탐색 후보 수
   glossary_k: 2             # 일반 질문에 붙일 용어집 근거 수 (관련도 기준을 넘는 것만)
   glossary_min_score: 0.45  # 임베딩만으로 붙일 때의 최소 관련도 (1 - 코사인 거리). 키워드 일치는 기준 없이 포함
+  decompose: true           # 고도화: 두 가지 이상 묻는 질문을 나눠 검색 (골든셋 두 가지 질문 정답률 0.60 → 0.80)
 
 collect:
   max_queries: 4

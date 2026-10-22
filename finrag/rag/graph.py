@@ -26,6 +26,7 @@ class RAGState(TypedDict, total=False):
     task: str                # qa | briefing | factcheck | term
     search_type: str         # similarity | mmr (설정값을 화면에서 바꿔 비교할 때)
     top_k: int
+    decompose: bool          # 고도화: 질문 분해 검색을 켤지 (기본은 config.yaml)
     contexts: list[dict]     # [{n, id, source_type, title, url, doc_date, text}]
     answer: str
     cited: list[dict]
@@ -40,6 +41,18 @@ def _to_context(doc_id: str, text: str, meta: dict) -> dict:
         "doc_date": meta.get("doc_date", ""),
         "text": text,
     }
+
+
+def split_question(company: str, question: str) -> list[str]:
+    """두 가지 이상을 묻는 질문을 하위 질문으로 나눈다. 실패하거나 하나뿐이면 [원문]."""
+    prompt = ChatPromptTemplate.from_messages([("system", prompts.DECOMPOSE_SYSTEM), ("human", prompts.DECOMPOSE_HUMAN)])
+    try:
+        out = (prompt | chat("query").with_structured_output(prompts.SubQuestions)).invoke(
+            {"company": company, "question": question})
+        subs = [q.strip() for q in out.questions if q.strip()][:3]
+    except Exception:
+        subs = []
+    return subs if len(subs) > 1 else [question]
 
 
 def retrieve(state: RAGState) -> dict:
@@ -65,15 +78,30 @@ def retrieve(state: RAGState) -> dict:
     if wiki_title and conf.get("own_doc_k"):
         own_flt = {"$and": [{"stock_code": code}, {"title": wiki_title}]}
         found += docs_store.similarity_search(query, k=conf["own_doc_k"], filter=own_flt)
-    if search_type == "mmr":
-        found += docs_store.max_marginal_relevance_search(
-            query, k=k, fetch_k=conf["fetch_k"], lambda_mult=conf["mmr_lambda"], filter=flt)
-    else:
-        found += docs_store.similarity_search(query, k=k, filter=flt)
 
-    # ③ 병합 · 중복 제거 (청크 ID 기준)
+    def search(q: str, n: int) -> list:
+        if search_type == "mmr":
+            return docs_store.max_marginal_relevance_search(
+                q, k=n, fetch_k=conf["fetch_k"], lambda_mult=conf["mmr_lambda"], filter=flt)
+        return docs_store.similarity_search(q, k=n, filter=flt)
+
+    # 고도화: 두 가지 이상을 묻는 질문은 하위 질문마다 따로 검색해 번갈아 담는다.
+    # 한 번에 검색하면 한쪽 사실의 청크만 Top-k를 채워 다른 쪽 근거가 빠졌다 (골든셋 multi chunk_recall 0.70)
+    decompose = state.get("decompose", conf.get("decompose", False)) and state.get("task", "qa") in ("qa", "factcheck")
+    subs = split_question(state.get("company", ""), state["question"]) if decompose else []
+    if len(subs) > 1:
+        per_query = [search(f"{state.get('company', '')} {s}".strip(), k) for s in subs]
+        for rank in range(k):  # 라운드 로빈: 하위 질문별 1위, 2위, ... 순서로
+            found += [hits[rank] for hits in per_query if rank < len(hits)]
+    else:
+        found += search(query, k)
+
+    # ③ 병합 · 중복 제거 (청크 ID 기준). 질문 분해를 했으면 외부 문서 수를 본문서 + k로 맞춘다
     seen = {c["id"] for c in contexts}
+    limit = len(contexts) + (conf.get("own_doc_k") or 0) + k
     for doc in found:
+        if len(contexts) >= limit:
+            break
         m = doc.metadata
         doc_id = f"{m.get('stock_code')}:{m.get('source_type')}:{m.get('doc_id')}:{m.get('seq')}"
         if doc_id in seen:
