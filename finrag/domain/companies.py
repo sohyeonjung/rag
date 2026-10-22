@@ -1,6 +1,7 @@
 """항목(상장기업) 정의: 로드, 색인 텍스트 구성, 별칭, 위키 제목 보정."""
 
 import json
+import re
 from functools import lru_cache
 
 from finrag.config import path
@@ -55,6 +56,36 @@ def load_items() -> list[dict]:
 
 def item_by_code(stock_code: str) -> dict | None:
     return next((it for it in load_items() if it["stock_code"] == stock_code), None)
+
+
+def _names(item: dict) -> set[str]:
+    """기업을 부르는 이름들: 종목명 · 위키 제목 · 정식명칭(법인 표기 제외) · 별칭."""
+    full = re.sub(r"\(주\)|주식회사|㈜", "", item.get("corp_name_full") or "").strip()
+    wiki = re.sub(r"\s*\(.*?\)$", "", item.get("wiki_title") or "")
+    names = {item["name"], wiki, full, *item.get("aliases", [])}
+    return {n for n in names if len(n) >= 2}
+
+
+@lru_cache
+def _name_index() -> list[tuple[str, str]]:
+    """(이름, 종목코드) — 긴 이름부터. 'SK하이닉스' 안의 'SK'처럼 짧은 이름이 먼저 잡히지 않게."""
+    pairs = {(n, it["stock_code"]) for it in load_items() for n in _names(it)}
+    return sorted(pairs, key=lambda p: -len(p[0]))
+
+
+def mentioned_companies(text: str) -> list[str]:
+    """질문에 이름이 나온 목록 기업의 종목코드 (나온 순서). 긴 이름이 차지한 자리는 짧은 이름이 다시 쓰지 않는다."""
+    taken: list[tuple[int, int, str]] = []
+    for name, code in _name_index():
+        ascii_name = name.isascii()
+        for m in re.finditer(re.escape(name), text, flags=re.I if ascii_name else 0):
+            s, e = m.span()
+            if ascii_name and ((s and text[s - 1].isascii() and text[s - 1].isalnum())
+                               or (e < len(text) and text[e].isascii() and text[e].isalnum())):
+                continue  # 'NC'가 'NCSOFT' 안에서 잡히지 않게 영문은 단어 경계 확인
+            if all(e <= ts or s >= te for ts, te, _ in taken):
+                taken.append((s, e, code))
+    return list(dict.fromkeys(code for _, _, code in sorted(taken)))
 
 
 def display_name(item: dict) -> str:

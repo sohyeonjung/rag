@@ -1,4 +1,4 @@
-"""FinRAG — 근거로 답하는 상장기업 리서치 (Streamlit). 교육생 배포 step7_skeleton.py 골격에서 출발했다.
+"""상장기업 리서치 서비스 — 근거로 답하는 RAG 화면 (Streamlit). 교육생 배포 step7_skeleton.py 골격에서 출발했다.
 
     streamlit run app.py
 """
@@ -12,11 +12,12 @@ from finrag.collect.http import ExternalAPIError
 from finrag.collect import cache
 from finrag.config import ROOT, MissingKeyError, env, mask_secrets, settings
 from finrag.domain import prompts
-from finrag.domain.companies import ITEM_LABEL, display_name, item_by_code, load_items
+from finrag.domain.companies import ITEM_LABEL, display_name, item_by_code, load_items, mentioned_companies
 from finrag.features.explore import explore
 from finrag.rag.citations import SOURCE_LABELS
 from finrag.rag.graph import ask
 from finrag.store.vectorstore import count
+from finrag.ui_text import safe_md
 
 (ROOT / "logs").mkdir(exist_ok=True)
 logging.basicConfig(filename=ROOT / "logs" / "app.log", level=logging.INFO, encoding="utf-8",
@@ -31,9 +32,11 @@ INPUT_HINT = {
     "term": "궁금한 경제·금융 용어를 입력하세요. 예) 물적분할, PER, 공매도",
 }
 
-st.set_page_config(page_title="FinRAG", page_icon="📈", layout="wide")
-st.title("📈 FinRAG")
-st.caption("공개 문서(위키백과 · DART 공시 · 한국은행 용어집)를 근거로 답하고 출처를 함께 보여 주는 상장기업 리서치 서비스")
+SERVICE_NAME = "상장기업 리서치 서비스"
+
+st.set_page_config(page_title=SERVICE_NAME, page_icon="📈", layout="wide")
+st.title(SERVICE_NAME)
+st.caption("공개 문서(위키백과 · DART 공시 · 한국은행 용어집)를 근거로 답하고, 답변마다 출처를 함께 보여 줍니다.")
 st.warning(prompts.DISCLAIMER, icon="⚠️")  # 위험 도메인 면책 안내 (F2012)
 
 
@@ -75,6 +78,13 @@ def label(code: str) -> str:
 def choose(code: str) -> None:
     """조건 탐색 카드에서 기업을 고를 때. selectbox의 key 값을 콜백에서 바꾼다(위젯 정체성 함정 방지)."""
     st.session_state.stock_code = code
+
+
+def run_later(question: str, task: str, mode_label: str, switch_to: str | None = None) -> None:
+    """'다른 기업 질문' 안내의 버튼 콜백. 기업을 바꿀 수도 있고, 다음 실행에서 같은 질문을 바로 처리한다."""
+    if switch_to:
+        st.session_state.stock_code = switch_to
+    st.session_state.run_now = {"question": question, "task": task, "mode_label": mode_label}
 
 
 # ── 사이드바: 기업 선택 · 조건 탐색 · 검색 설정 ───────────────────────────
@@ -133,15 +143,15 @@ if not code:
 item = item_by_code(code)
 st.subheader(display_name(item))
 
+# 기능 선택은 대화 위에 고정한다 — 대화 아래에 두면 대화가 쌓일 때마다 위치가 바뀌고 대화 중간에 끼어 보였다
+mode_label = st.radio("기능", list(MODES), horizontal=True, label_visibility="collapsed")
+task = MODES[mode_label]
+briefing_clicked = task == "briefing" and st.button("📋 브리핑 카드 만들기")
+
 # 기업별 대화 기록을 따로 둔다 (F2009) — 기업을 바꿔도 대화가 섞이지 않는다
 st.session_state.setdefault("chats", {})
 messages = st.session_state.chats.setdefault(code, [])
 fill_sidebar_stats()  # 답변을 만드는 동안에도 비어 보이지 않게 먼저 그리고, 끝에서 한 번 더 갱신한다
-
-
-def safe_md(text: str) -> str:
-    """'2016년~2020년'처럼 물결표가 두 번 나오면 Markdown이 취소선으로 그린다 → 물결표를 이스케이프. (트러블슈팅 #8)"""
-    return text.replace("~", r"\~")
 
 
 def render_sources(cited: list[dict]) -> None:
@@ -162,19 +172,33 @@ for m in messages:
         if m["role"] == "assistant":
             render_sources(m.get("cited", []))
 
-mode_label = st.radio("기능", list(MODES), horizontal=True, label_visibility="collapsed")
-task = MODES[mode_label]
 question = st.chat_input(INPUT_HINT[task])
-if task == "briefing" and st.button("📋 브리핑 카드 만들기"):
-    question = question or ""
-if task == "briefing" and question is not None:
-    question = prompts.BRIEFING_QUESTION + (f" 특히 '{question}'을(를) 중심으로." if question.strip() else "")
+forced = False
+if "run_now" in st.session_state:  # '다른 기업 질문' 안내에서 버튼을 누른 경우
+    pending = st.session_state.pop("run_now")
+    question, task, mode_label, forced = pending["question"], pending["task"], pending["mode_label"], True
+elif task == "briefing" and (briefing_clicked or question is not None):
+    question = prompts.BRIEFING_QUESTION + (f" 특히 '{question}'을(를) 중심으로." if question and question.strip() else "")
 
 if question:
     shown = f"[{mode_label}] {question}" if task != "qa" else question
-    messages.append({"role": "user", "content": shown})
     with st.chat_message("user"):
         st.markdown(shown)
+
+    # 선택한 기업이 아니라 다른 기업만 묻는 질문이면 바로 답하지 않고 물어본다.
+    # 그대로 답하면 그 기업 문서가 지금 기업 앞으로 수집돼 색인이 섞였다 (KT&G를 골라 놓고 삼성전자를 물은 경우)
+    others = [c for c in mentioned_companies(question) if c != code]
+    if not forced and task in ("qa", "factcheck") and others and code not in mentioned_companies(question):
+        other = item_by_code(others[0])
+        with st.chat_message("assistant"):
+            st.info(f"{other['name']}에 대한 질문 같아요. 지금은 {item['name']}이(가) 선택되어 있습니다.")
+            left, right = st.columns(2)
+            left.button(f"{other['name']}(으)로 바꿔서 질문하기", type="primary", width="stretch",
+                        on_click=run_later, args=(question, task, mode_label, other["stock_code"]))
+            right.button(f"{item['name']} 기준으로 그대로 답하기", width="stretch",
+                         on_click=run_later, args=(question, task, mode_label))
+        fill_sidebar_stats()
+        st.stop()
 
     with st.chat_message("assistant"):
         answer, cited = "", []
@@ -211,7 +235,10 @@ if question:
         if answer:
             st.markdown(safe_md(answer))
             render_sources(cited)
+    # 질문과 답을 답변이 끝났을 때 함께 저장한다. 도중에 새 질문을 보내 실행이 멈추면 둘 다 남지 않는다
+    # (전에는 질문을 먼저 저장해서, 멈춘 질문이 답 없이 대화에 남았다)
     if answer:
+        messages.append({"role": "user", "content": shown})
         messages.append({"role": "assistant", "content": answer, "cited": cited})
 
 fill_sidebar_stats()
