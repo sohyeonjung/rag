@@ -27,6 +27,18 @@ class CitationTest(unittest.TestCase):
     def test_parses_single_and_grouped(self):
         self.assertEqual(cited_numbers("A [근거 1] B [근거 2, 4] C [근거3]"), {1, 2, 3, 4})
 
+    def test_parses_repeated_label_inside_brackets(self):
+        # 실제 답변에서 나온 형식: 화면에 2건만 표시되던 버그 (트러블슈팅 #8)
+        self.assertEqual(cited_numbers("[근거 7, 근거 8] 그리고 [근거 1, 근거 4, 근거 6]"), {1, 4, 6, 7, 8})
+
+    def test_range_reference_is_not_a_citation(self):
+        answer = "다만 제공된 문서([근거 1]~[근거 8])에서는 확인되지 않습니다. 설립일은 2016년이다 [근거 3]."
+        self.assertEqual(cited_numbers(answer), {3})
+        self.assertEqual(cited_numbers("[근거 1~8]에서 찾을 수 없음"), set())
+
+    def test_ignores_non_citation_brackets(self):
+        self.assertEqual(cited_numbers("[참고 3] [근거 없음] 2026년"), set())
+
     def test_only_cited_sources_are_kept(self):
         contexts = [{"n": i, "title": f"t{i}"} for i in range(1, 5)]
         self.assertEqual([c["n"] for c in cited_sources("x [근거 3]", contexts)], [3])

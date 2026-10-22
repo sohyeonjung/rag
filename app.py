@@ -109,16 +109,24 @@ with st.sidebar:
         top_k = st.slider("근거 수 (Top-k)", 2, 12, conf["top_k"])
 
     st.divider()
-    st.caption(f"기업 메타데이터 색인: {meta_count}건 · 외부 문서 청크: {count('docs')}건 · 용어집: {count('glossary')}개")
-    if code:
-        it = item_by_code(code)
-        st.caption(f"대표자: {it.get('ceo') or '-'} · 설립: {it.get('est_dt') or '-'} · 결산월: {it.get('acc_mt') or '-'}월")
-        titles = cache.get(code)["titles"]
-        st.caption(f"수집된 문서 {len(titles)}건" + (f": {' · '.join(titles)}" if titles else ""))
+    # 색인 현황은 자리만 잡아 두고 스크립트 끝에서 채운다 — 이번 질문으로 수집한 문서까지 반영되게
+    stats_box = st.empty()
     if st.button("이 기업 대화 지우기", width="stretch", disabled=not code):
         st.session_state.chats[code] = []
 
+
+def fill_sidebar_stats() -> None:
+    with stats_box.container():
+        st.caption(f"기업 메타데이터 색인: {meta_count}건 · 외부 문서 청크: {count('docs')}건 · 용어집: {count('glossary')}개")
+        if code:
+            it = item_by_code(code)
+            st.caption(f"대표자: {it.get('ceo') or '-'} · 설립: {it.get('est_dt') or '-'} · 결산월: {it.get('acc_mt') or '-'}월")
+            titles = cache.get(code)["titles"]
+            st.caption(f"수집된 문서 {len(titles)}건" + (f": {' · '.join(titles)}" if titles else ""))
+
+
 if not code:
+    fill_sidebar_stats()
     st.info("왼쪽에서 질문할 기업을 고르거나, 조건으로 기업을 찾아보세요.")
     st.stop()
 
@@ -128,6 +136,12 @@ st.subheader(display_name(item))
 # 기업별 대화 기록을 따로 둔다 (F2009) — 기업을 바꿔도 대화가 섞이지 않는다
 st.session_state.setdefault("chats", {})
 messages = st.session_state.chats.setdefault(code, [])
+fill_sidebar_stats()  # 답변을 만드는 동안에도 비어 보이지 않게 먼저 그리고, 끝에서 한 번 더 갱신한다
+
+
+def safe_md(text: str) -> str:
+    """'2016년~2020년'처럼 물결표가 두 번 나오면 Markdown이 취소선으로 그린다 → 물결표를 이스케이프. (트러블슈팅 #8)"""
+    return text.replace("~", r"\~")
 
 
 def render_sources(cited: list[dict]) -> None:
@@ -144,7 +158,7 @@ def render_sources(cited: list[dict]) -> None:
 
 for m in messages:
     with st.chat_message(m["role"]):
-        st.markdown(m["content"])
+        st.markdown(safe_md(m["content"]))
         if m["role"] == "assistant":
             render_sources(m.get("cited", []))
 
@@ -186,7 +200,9 @@ if question:
             st.error(friendly_error(e))
 
         if answer:
-            st.markdown(answer)
+            st.markdown(safe_md(answer))
             render_sources(cited)
     if answer:
         messages.append({"role": "assistant", "content": answer, "cited": cited})
+
+fill_sidebar_stats()
