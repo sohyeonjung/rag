@@ -246,6 +246,29 @@ def _():
     return bool(boxes) and bool(steps), f"상태 박스: '{boxes[0].label if boxes else '-'}' · 진행 메시지: {steps[:6]}"
 
 
+@check("4.4", "외부 문서 서버 장애 시 오류 추적 없이 안내하고 기존 색인으로 답변 (F2012 · NF2004)")
+def _():
+    from finrag.collect.http import ExternalAPIError
+    from finrag.store.vectorstore import collection
+
+    def down(*args, **kwargs):
+        raise ExternalAPIError("ko.wikipedia.org 호출 실패 (HTTP 503)")
+
+    code = "017670"  # SK텔레콤 — 수집 기록을 비워 '처음 질문' 상황을 만든다
+    cache.forget(code)
+    collection("docs").delete(where={"stock_code": code})
+    with mock.patch("finrag.collect.wiki.search", side_effect=down), \
+            mock.patch("finrag.collect.wiki.fetch_page", side_effect=down):
+        at = app_test().run()
+        at.selectbox(key="stock_code").set_value(code).run()
+        at.chat_input[0].set_value("SK텔레콤의 대표자와 본사는?").run()
+    warned = any("외부 문서 서버에 연결하지 못해" in w.value for w in at.warning)
+    answered = len(at.chat_message) == 2
+    return warned and answered and not at.exception and not at.error, (
+        f"위키 API 503 가정 → 경고 {'표시' if warned else '없음'} · 답변 {'생성' if answered else '없음'} · "
+        f"오류 추적 노출 {'없음' if not at.exception else '있음'}")
+
+
 @check("4.4", "조건 기반 탐색 결과에 조건과 맞지 않는 항목이 없음")
 def _():
     from finrag.features.explore import explore

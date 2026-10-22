@@ -181,15 +181,24 @@ if question:
         try:
             # 진행 상태 표시 (F2012) — 첫 질문은 수집·색인 때문에 오래 걸린다
             with st.status("관련 문서를 찾고 있습니다...", expanded=False) as status:
-                report = collect(item, question, progress=status.write)
-                if report.skipped_queries:
-                    status.write(f"이미 수집한 검색어 {len(report.skipped_queries)}개는 건너뜀: "
-                                 + ", ".join(report.skipped_queries))
-                new = f"새 문서 {len(report.selected)}건 색인" if report.selected else "새로 수집한 문서 없음 (기존 색인 사용)"
-                status.update(label=new, state="complete")
-                if report.selected:
-                    st.caption(" · ".join(report.selected))
-            for note in report.notes:
+                try:
+                    report = collect(item, question, progress=status.write)
+                except ExternalAPIError as e:
+                    # 외부 문서 서버가 안 될 때도 이미 색인된 문서와 기업 기본 정보로는 답할 수 있다
+                    log.warning(mask_secrets(f"collect failed: {e}"))
+                    report = None
+                    status.update(label="외부 문서를 새로 가져오지 못함 (기존 색인 사용)", state="error")
+                else:
+                    if report.skipped_queries:
+                        status.write(f"이미 수집한 검색어 {len(report.skipped_queries)}개는 건너뜀: "
+                                     + ", ".join(report.skipped_queries))
+                    new = f"새 문서 {len(report.selected)}건 색인" if report.selected else "새로 수집한 문서 없음 (기존 색인 사용)"
+                    status.update(label=new, state="complete")
+                    if report.selected:
+                        st.caption(" · ".join(report.selected))
+            if report is None:
+                st.warning("외부 문서 서버에 연결하지 못해, 이미 색인된 문서와 기업 기본 정보로만 답합니다.")
+            for note in (report.notes if report else []):
                 st.info(note)
             with st.spinner("근거를 찾아 답변을 만드는 중..."):
                 result = ask(code, item["name"], question, task=task, search_type=search_type, top_k=top_k)

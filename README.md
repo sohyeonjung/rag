@@ -28,7 +28,7 @@
 
 - [요구사항 정의서](docs/01_요구사항정의서.md)
 - [RAG 파이프라인 설계문서](docs/02_RAG_파이프라인_설계문서.md)
-- [검증 결과](docs/03_검증결과.md) · [4장 검증 실행 기록](docs/eval/verification_log.md)
+- [검증 결과](docs/03_검증결과.md) · [4장 검증 실행 기록](docs/eval/verification_log.md) · [셀프·상호 체크리스트](docs/04_셀프·상호_체크리스트.md)
 
 ## 구조
 
