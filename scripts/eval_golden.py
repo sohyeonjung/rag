@@ -17,6 +17,9 @@
   accuracy           : 정답 키워드가 모두 답변에 있는 비율 (사실·용어·두 가지 질문)
   cited_gold         : 답변이 정답 근거 문서를 실제로 인용한 비율
   refusal            : 문서에 없는 질문·투자 판단 질문에 지어내지 않고 모른다/답할 수 없다고 한 비율
+
+키워드 채점은 "모바일 업체 등은 확인되지 않음"처럼 부정문 속 키워드도 정답으로 센다.
+사람이 답변을 읽고 바로잡은 판정은 eval/manual_review.json에 남기고, 자동 채점 뒤에 적용한다.
 """
 
 import _bootstrap  # noqa: F401
@@ -125,10 +128,23 @@ def main(label: str, search_type: str | None, top_k: int | None, profile: str, d
     write_report(rows, meta)
 
 
+def apply_manual_review(label: str, rows: list[dict]) -> None:
+    from finrag.config import ROOT
+
+    p = ROOT / "eval" / "manual_review.json"
+    fixes = json.loads(p.read_text(encoding="utf-8")).get(label, {}) if p.exists() else {}
+    for r in rows:
+        fix = fixes.get(r["id"])
+        if fix:
+            r.update({k: v for k, v in fix.items() if k != "reason"})
+            r["manual_review"] = fix["reason"]
+
+
 def write_report(rows: list[dict], meta: dict) -> None:
     from finrag.config import ROOT
 
     label = meta["label"]
+    apply_manual_review(label, rows)
     by_type = defaultdict(list)
     for r in rows:
         by_type[r["type"]].append(r)
@@ -167,6 +183,9 @@ def write_report(rows: list[dict], meta: dict) -> None:
         *[f"- **{r['id']}** ({r['type']}) {r['question']} — recall {r.get('gold_recall', '-')}, "
           f"근거 안 정답 {r.get('answer_in_context', '-')} · 답변: {' '.join(r['answer'].split())[:120]}"
           for r in rows if r.get("accuracy") is False or r.get("refusal") is False],
+        *(["", "## 사람이 바로잡은 판정 (eval/manual_review.json)", "",
+           *[f"- **{r['id']}** {r['manual_review']}" for r in rows if r.get("manual_review")]]
+          if any(r.get("manual_review") for r in rows) else []),
     ]
     out = ROOT / "docs" / "eval" / f"golden_{label}.md"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
