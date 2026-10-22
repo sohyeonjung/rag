@@ -86,6 +86,23 @@ class GlossaryTest(unittest.TestCase):
                          "가계가 마음대로 소비와 저축으로 처분할 수 있는 소득")
 
 
+class KeywordSearchTest(unittest.TestCase):
+    def test_korean_bigrams_match_with_particles(self):
+        from finrag.rag.keyword import tokenize
+        q, doc = set(tokenize("매매목적거래는")), set(tokenize("매매목적거래(은행계정)"))
+        self.assertTrue({"매매", "목적", "거래"} <= q & doc)
+
+    def test_numbers_ignore_commas(self):
+        from finrag.rag.keyword import tokenize
+        self.assertIn("17595", tokenize("기투자액 17,595 억원"))
+
+    def test_rrf_rewards_items_ranked_in_both_lists(self):
+        from finrag.rag.keyword import rrf
+        fused = rrf([["a", "b", "c"], ["c", "d"]])
+        self.assertEqual(fused[0], "c")  # 양쪽에 다 나온 c가 한쪽 1위인 a보다 앞
+        self.assertEqual(set(fused), {"a", "b", "c", "d"})
+
+
 class MiscTest(unittest.TestCase):
     def test_mask_secrets_hides_query_keys(self):
         os.environ["DART_API_KEY"] = "abc123secret"

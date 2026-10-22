@@ -95,7 +95,8 @@ def fmt(v: float | None) -> str:
     return "-" if v is None else f"{v:.3f}"
 
 
-def main(label: str, search_type: str | None, top_k: int | None, profile: str, decompose: bool) -> None:
+def main(label: str, search_type: str | None, top_k: int | None, profile: str, decompose: bool | None,
+         hybrid: bool | None) -> None:
     os.environ["MODEL_PROFILE"] = profile
     from finrag.config import ROOT, model_name, settings
     from finrag.domain.companies import item_by_code
@@ -108,8 +109,10 @@ def main(label: str, search_type: str | None, top_k: int | None, profile: str, d
         name = item_by_code(item["stock_code"])["name"]
         task = "term" if item["type"] == "term" else "qa"
         overrides = {k: v for k, v in (("search_type", search_type), ("top_k", top_k)) if v}
-        if decompose:
-            overrides["decompose"] = True
+        if decompose is not None:
+            overrides["decompose"] = decompose
+        if hybrid is not None:
+            overrides["hybrid"] = hybrid
         result = ask(item["stock_code"], name, item["question"], task=task, **overrides)
         rows.append(score(item, result))
         r = rows[-1]
@@ -117,7 +120,8 @@ def main(label: str, search_type: str | None, top_k: int | None, profile: str, d
     elapsed = time.perf_counter() - t0
     meta = {"label": label, "date": date.today().isoformat(), "model": model_name("answer"),
             "search_type": search_type or conf["search_type"], "top_k": top_k or conf["top_k"],
-            "decompose": decompose, "seconds": round(elapsed, 1)}
+            "decompose": conf.get("decompose", False) if decompose is None else decompose,
+            "hybrid": conf.get("hybrid", False) if hybrid is None else hybrid, "seconds": round(elapsed, 1)}
     write_report(rows, meta)
 
 
@@ -146,7 +150,7 @@ def write_report(rows: list[dict], meta: dict) -> None:
     s = summary
     lines = [
         f"# 골든셋 평가 — {label}", "",
-        f"- 실행일 {s['date']} · 답변 모델 `{s['model']}` · 검색 {s['search_type']} · Top-k {s['top_k']} · 질문 분해 {'켬' if s['decompose'] else '끔'} · {s['n']}문항 · {s['seconds']}초",
+        f"- 실행일 {s['date']} · 답변 모델 `{s['model']}` · 검색 {s['search_type']} · Top-k {s['top_k']} · 질문 분해 {'켬' if s['decompose'] else '끔'} · 하이브리드 {'켬' if s.get('hybrid') else '끔'} · {s['n']}문항 · {s['seconds']}초",
         "- 골든셋: `eval/golden_set.json` (청크 기반 초안 + 원문 일치 검수 + 사람 검수) · 수집 없이 현재 색인으로 평가", "",
         "| 지표 | 값 |", "| --- | --- |",
         f"| gold_recall (정답 근거 문서 검색률) | {fmt(s['gold_recall'])} |",
@@ -181,6 +185,7 @@ def rescore(label: str) -> None:
             r["accuracy"] = has_all(r["answer"], golden[r["id"]]["answer_groups"])
     meta = {k: saved["summary"][k] for k in ("label", "date", "model", "search_type", "top_k", "seconds")}
     meta["decompose"] = saved["summary"].get("decompose", False)
+    meta["hybrid"] = saved["summary"].get("hybrid", False)
     meta["rescored"] = date.today().isoformat()
     write_report(rows, meta)
 
@@ -191,10 +196,11 @@ if __name__ == "__main__":
     p.add_argument("--search-type", choices=["similarity", "mmr"])
     p.add_argument("--top-k", type=int)
     p.add_argument("--profile", default="dev", choices=["dev", "final"])
-    p.add_argument("--decompose", action="store_true", help="질문 분해 검색 켜기")
+    p.add_argument("--decompose", action=argparse.BooleanOptionalAction, default=None, help="질문 분해 (기본: config.yaml)")
+    p.add_argument("--hybrid", action=argparse.BooleanOptionalAction, default=None, help="하이브리드 검색 (기본: config.yaml)")
     p.add_argument("--rescore", action="store_true", help="API 호출 없이 저장된 답변으로 다시 채점")
     a = p.parse_args()
     if a.rescore:
         rescore(a.label)
     else:
-        main(a.label, a.search_type, a.top_k, a.profile, a.decompose)
+        main(a.label, a.search_type, a.top_k, a.profile, a.decompose, a.hybrid)

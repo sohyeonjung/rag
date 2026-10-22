@@ -42,6 +42,10 @@ retrieval:
   glossary_k: 2             # 일반 질문에 붙일 용어집 근거 수 (관련도 기준을 넘는 것만)
   glossary_min_score: 0.45  # 임베딩만으로 붙일 때의 최소 관련도 (1 - 코사인 거리). 키워드 일치는 기준 없이 포함
   decompose: true           # 고도화: 두 가지 이상 묻는 질문을 나눠 검색 (골든셋 두 가지 질문 정답률 0.60 → 0.80)
+  hybrid: true              # 고도화: 벡터 + 키워드(BM25) 검색 결합 (골든셋 정답률 0.833 → 0.938, chunk_recall 0.875 → 0.969)
+  rrf_k: 60
+  hybrid_pool_factor: 2     # 벡터·키워드 후보를 top_k의 몇 배씩 가져와 합칠지
+  keyword_keep: 2           # 키워드 검색 상위 몇 개는 순위 합산과 상관없이 먼저 넣을지
 
 collect:
   max_queries: 4
