@@ -1,0 +1,45 @@
+# 검색·답변 품질에 영향을 주는 값은 코드가 아니라 여기서 바꾼다. (2.5 검색 설정 설계)
+
+gms_base_url: https://gms.ssafy.io/gmsapi/api.openai.com/v1/
+
+# MODEL_PROFILE 환경변수로 고른다. 개발 중에는 dev로 크레딧을 아낀다.
+models:
+  dev:
+    query: gpt-5.4-nano      # P1 검색어 추출
+    select: gpt-5.4-nano     # P2 후보 선별
+    answer: gpt-5.4-nano     # P3 답변 생성
+  final:
+    query: gpt-5.4-nano
+    select: gpt-5.4-nano
+    answer: gpt-4.1          # 최종 검증 때만
+embedding_model: text-embedding-3-small
+
+# 개발 중 같은 프롬프트는 LLM을 다시 부르지 않는다 (SQLite 캐시)
+llm_cache: true
+
+paths:
+  chroma_dir: chroma
+  items: data/items.json
+  collect_cache: data/cache/collected.json
+
+collections:
+  meta: company_meta
+  docs: company_docs
+
+chunk:
+  wiki: {size: 1000, overlap: 200}
+
+retrieval:
+  top_k: 6                  # 외부 문서 청크 수 (+ 선택 기업 메타 1청크는 항상)
+  own_doc_k: 2              # 기업 본문서(위키)에서 먼저 확보할 청크 수
+  search_type: similarity   # similarity | mmr
+  fetch_k: 30               # MMR 후보 수
+  mmr_lambda: 0.5
+  explore_k: 30             # 조건 탐색 후보 수
+
+collect:
+  max_queries: 4
+  max_candidates_per_query: 5
+  max_chunks_per_doc: 30    # 긴 문서(예: '반도체' 204청크)는 앞부분만 색인 — 임베딩 비용과 노이즈 제한
+  request_interval_sec: 0.5
+  max_retries: 4
