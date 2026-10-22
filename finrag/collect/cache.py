@@ -29,5 +29,16 @@ def update(stock_code: str, queries: list[str], pages: list[dict]) -> None:
     out.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def dart_done(stock_code: str) -> str | None:
+    """이미 색인한 공시 접수번호."""
+    return _load().get(stock_code, {}).get("dart_rcept")
+
+
+def mark_dart(stock_code: str, rcept_no: str) -> None:
+    data = _load()
+    data.setdefault(stock_code, {"queries": [], "page_ids": [], "titles": []})["dart_rcept"] = rcept_no
+    path("collect_cache").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def clear() -> None:
     path("collect_cache").unlink(missing_ok=True)

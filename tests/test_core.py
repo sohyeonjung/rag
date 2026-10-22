@@ -48,6 +48,14 @@ class ItemTest(unittest.TestCase):
         self.assertTrue(all(isinstance(v, (str, int, float, bool)) for v in meta.values()))
 
 
+class DartParseTest(unittest.TestCase):
+    def test_table_row_becomes_one_line(self):
+        from finrag.collect.dart_report import _clean
+        xml = ("<P>가. 주요 제품</P><TABLE><TR><TH>부 문</TH><TH>매출액</TH></TR>"
+               "<TR><TD><P>DS</P></TD><TE>2,092,317</TE></TR></TABLE>")
+        self.assertEqual(_clean(xml), "가. 주요 제품\n부 문 | 매출액\nDS | 2,092,317")
+
+
 class MiscTest(unittest.TestCase):
     def test_mask_secrets_hides_query_keys(self):
         os.environ["DART_API_KEY"] = "abc123secret"

@@ -11,7 +11,8 @@ from typing import Callable
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 
-from finrag.collect import cache, wiki
+from finrag.collect import cache, dart_report, wiki
+from finrag.collect.http import ExternalAPIError
 from finrag.config import settings
 from finrag.domain import prompts
 from finrag.domain.companies import build_item_text
@@ -32,6 +33,8 @@ class CollectReport:
     rejected: list[str] = field(default_factory=list)         # 버린 후보 제목
     chunks: int = 0
     select_reason: str = ""
+    dart_report: str = ""                                     # 이번에 색인한 공시 이름
+    notes: list[str] = field(default_factory=list)            # 화면에 보여 줄 안내 (실패해도 답변은 계속)
 
 
 def extract_queries(item: dict, question: str) -> list[str]:
@@ -81,6 +84,37 @@ def index_page(item: dict, page: dict, query: str) -> int:
     docs = [Document(page_content=c, metadata={**meta, "seq": i}) for i, c in enumerate(chunks)]
     collection("docs").add_documents(docs, ids=ids)
     return len(chunks)
+
+
+def index_dart(item: dict, progress: Progress) -> tuple[str, int]:
+    """기업의 최근 정기보고서를 한 번만 색인한다. (보고서 이름, 청크 수). 이미 했으면 ('', 0)."""
+    if not item.get("corp_code") or cache.dart_done(item["stock_code"]):
+        return "", 0
+    progress("DART 공시 확인 중...")
+    report = dart_report.latest_report(item["corp_code"])
+    if not report:
+        return "", 0
+    progress(f"공시 수집: {report['report_nm']}")
+    d = report["rcept_dt"]
+    doc_date = f"{d[:4]}-{d[4:6]}-{d[6:]}"
+    url = f"https://dart.fss.or.kr/dsaf001/main.do?rcpNo={report['rcept_no']}"
+
+    docs, ids = [], []
+    for sec in dart_report.sections(report["rcept_no"]):
+        for chunk in split(sec["text"], "dart"):
+            seq = len(docs)
+            ids.append(f"{item['stock_code']}:dart:{report['rcept_no']}:{seq}")
+            docs.append(Document(page_content=f"[{sec['section']}]\n{chunk}", metadata={
+                "stock_code": item["stock_code"], "company_name": item["name"], "source_type": "dart",
+                "title": f"{report['report_nm']} · {sec['section'].split(' > ')[-1]}", "source_url": url,
+                "doc_id": report["rcept_no"], "section": sec["section"], "query": "",
+                "collected_at": date.today().isoformat(), "doc_date": doc_date, "seq": seq,
+            }))
+    limit = settings()["collect"]["max_chunks_per_report"]
+    if docs:
+        collection("docs").add_documents(docs[:limit], ids=ids[:limit])
+    cache.mark_dart(item["stock_code"], report["rcept_no"])
+    return report["report_nm"], min(len(docs), limit)
 
 
 def collect(item: dict, question: str, progress: Progress = lambda _: None) -> CollectReport:
@@ -137,4 +171,14 @@ def collect(item: dict, question: str, progress: Progress = lambda _: None) -> C
         report.selected.append(page["title"])
 
     cache.update(item["stock_code"], new_queries, [p for p, _ in pages_to_index])
+
+    # ⑤ 공시(두 번째 출처 종류). 실패해도 위키 근거로 답변은 계속한다.
+    if conf.get("dart"):
+        try:
+            name, n = index_dart(item, progress)
+            if name:
+                report.dart_report, report.chunks = name, report.chunks + n
+                report.selected.append(name)
+        except ExternalAPIError as e:
+            report.notes.append(f"공시를 가져오지 못해 위키백과 근거만 사용합니다. ({e})")
     return report

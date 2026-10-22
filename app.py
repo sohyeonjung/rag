@@ -174,6 +174,8 @@ if question:
                 status.update(label=new, state="complete")
                 if report.selected:
                     st.caption(" · ".join(report.selected))
+            for note in report.notes:
+                st.info(note)
             with st.spinner("근거를 찾아 답변을 만드는 중..."):
                 result = ask(code, item["name"], question, task=task, search_type=search_type, top_k=top_k)
             answer, cited = result["answer"], result["cited"]

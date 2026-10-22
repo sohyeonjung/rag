@@ -28,6 +28,7 @@ collections:
 
 chunk:
   wiki: {size: 1000, overlap: 200}
+  dart: {size: 1500, overlap: 200}   # 공시는 표 행이 길고 문맥 단위가 커서 더 크게
 
 retrieval:
   top_k: 6                  # 외부 문서 청크 수 (+ 선택 기업 메타 1청크는 항상)
@@ -41,5 +42,7 @@ collect:
   max_queries: 4
   max_candidates_per_query: 5
   max_chunks_per_doc: 30    # 긴 문서(예: '반도체' 204청크)는 앞부분만 색인 — 임베딩 비용과 노이즈 제한
+  dart: true                # 기업별 최근 정기보고서(회사의 개요·사업의 내용)를 첫 질문 때 한 번 색인
+  max_chunks_per_report: 60
   request_interval_sec: 0.5
   max_retries: 4
