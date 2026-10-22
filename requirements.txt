@@ -16,3 +16,4 @@ typing-extensions==4.16.0
 
 # 설정 파일
 pyyaml==6.0.3
+pypdf==6.21.2

@@ -47,7 +47,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("stock_code")
     p.add_argument("question")
-    p.add_argument("--task", default="qa", choices=["qa", "briefing", "factcheck"])
+    p.add_argument("--task", default="qa", choices=["qa", "briefing", "factcheck", "term"])
     p.add_argument("--search-type", default=None, choices=["similarity", "mmr"])
     p.add_argument("--top-k", type=int, default=None)
     main(p.parse_args())

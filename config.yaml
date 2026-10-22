@@ -25,10 +25,12 @@ paths:
 collections:
   meta: company_meta
   docs: company_docs
+  glossary: glossary
 
 chunk:
   wiki: {size: 1000, overlap: 200}
   dart: {size: 1500, overlap: 200}   # 공시는 표 행이 길고 문맥 단위가 커서 더 크게
+  glossary: {size: 2000, overlap: 0} # 용어 1개 = 청크 1개가 원칙 (가장 긴 해설이 약 2,000자)
 
 retrieval:
   top_k: 6                  # 외부 문서 청크 수 (+ 선택 기업 메타 1청크는 항상)
@@ -37,6 +39,8 @@ retrieval:
   fetch_k: 30               # MMR 후보 수
   mmr_lambda: 0.5
   explore_k: 30             # 조건 탐색 후보 수
+  glossary_k: 2             # 일반 질문에 붙일 용어집 근거 수 (관련도 기준을 넘는 것만)
+  glossary_min_score: 0.45  # 임베딩만으로 붙일 때의 최소 관련도 (1 - 코사인 거리). 키워드 일치는 기준 없이 포함
 
 collect:
   max_queries: 4

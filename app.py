@@ -23,16 +23,17 @@ logging.basicConfig(filename=ROOT / "logs" / "app.log", level=logging.INFO, enco
                     format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("finrag")
 
-MODES = {"질문하기": "qa", "브리핑 카드": "briefing", "팩트체크": "factcheck"}
+MODES = {"질문하기": "qa", "브리핑 카드": "briefing", "팩트체크": "factcheck", "용어 풀이": "term"}
 INPUT_HINT = {
     "qa": "이 기업에 대해 궁금한 점을 물어보세요",
     "briefing": "브리핑에서 특히 보고 싶은 내용이 있으면 적어 주세요 (비우고 아래 버튼을 눌러도 됩니다)",
     "factcheck": "검증할 주장을 붙여 넣으세요. 예) 이 회사는 2020년에 분할됐다",
+    "term": "궁금한 경제·금융 용어를 입력하세요. 예) 물적분할, PER, 공매도",
 }
 
 st.set_page_config(page_title="FinRAG", page_icon="📈", layout="wide")
 st.title("📈 FinRAG")
-st.caption("공개 문서(위키백과 · DART)를 근거로 답하고 출처를 함께 보여 주는 상장기업 리서치 서비스")
+st.caption("공개 문서(위키백과 · DART 공시 · 한국은행 용어집)를 근거로 답하고 출처를 함께 보여 주는 상장기업 리서치 서비스")
 st.warning(prompts.DISCLAIMER, icon="⚠️")  # 위험 도메인 면책 안내 (F2012)
 
 
@@ -108,7 +109,7 @@ with st.sidebar:
         top_k = st.slider("근거 수 (Top-k)", 2, 12, conf["top_k"])
 
     st.divider()
-    st.caption(f"기업 메타데이터 색인: {meta_count}건 · 외부 문서 청크: {count('docs')}건")
+    st.caption(f"기업 메타데이터 색인: {meta_count}건 · 외부 문서 청크: {count('docs')}건 · 용어집: {count('glossary')}개")
     if code:
         it = item_by_code(code)
         st.caption(f"대표자: {it.get('ceo') or '-'} · 설립: {it.get('est_dt') or '-'} · 결산월: {it.get('acc_mt') or '-'}월")

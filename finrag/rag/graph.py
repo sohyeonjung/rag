@@ -14,6 +14,7 @@ from langgraph.graph import END, START, StateGraph
 from finrag.config import settings
 from finrag.domain import prompts
 from finrag.llm import chat
+from finrag.rag import glossary_lookup
 from finrag.rag.citations import SOURCE_LABELS, cited_sources
 from finrag.store.vectorstore import collection
 
@@ -22,7 +23,7 @@ class RAGState(TypedDict, total=False):
     stock_code: str
     company: str
     question: str
-    task: str                # qa | briefing | factcheck
+    task: str                # qa | briefing | factcheck | term
     search_type: str         # similarity | mmr (설정값을 화면에서 바꿔 비교할 때)
     top_k: int
     contexts: list[dict]     # [{n, id, source_type, title, url, doc_date, text}]
@@ -70,7 +71,7 @@ def retrieve(state: RAGState) -> dict:
     else:
         found += docs_store.similarity_search(query, k=k, filter=flt)
 
-    # ③ 병합 · 중복 제거 (청크 ID 기준) · 번호 고정
+    # ③ 병합 · 중복 제거 (청크 ID 기준)
     seen = {c["id"] for c in contexts}
     for doc in found:
         m = doc.metadata
@@ -80,6 +81,16 @@ def retrieve(state: RAGState) -> dict:
         seen.add(doc_id)
         contexts.append(_to_context(doc_id, doc.page_content, m))
 
+    # ④ 한국은행 용어집 — 기업과 무관한 공용 근거라 기업 필터 없이, 질문에 나온 용어 위주로 (F2016)
+    term_task = state.get("task") == "term"
+    for doc_id, text, meta in glossary_lookup.lookup(
+        state["question"], k=3 if term_task else conf["glossary_k"], min_score=0.35 if term_task else None
+    ):
+        if doc_id not in seen:
+            seen.add(doc_id)
+            contexts.append(_to_context(doc_id, text, meta))
+
+    # ⑤ 번호 고정 — 이 번호가 답변 본문의 [근거 N]과 화면 목록을 잇는 유일한 기준
     for n, c in enumerate(contexts, start=1):
         c["n"] = n
     return {"contexts": contexts}

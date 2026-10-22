@@ -56,6 +56,24 @@ class DartParseTest(unittest.TestCase):
         self.assertEqual(_clean(xml), "가. 주요 제품\n부 문 | 매출액\nDS | 2,092,317")
 
 
+class GlossaryTest(unittest.TestCase):
+    def test_term_names_split_parentheses_and_slashes(self):
+        from finrag.rag.glossary_lookup import _names
+        self.assertEqual(_names("기업분할(물적분할, 인적분할)"), ["기업분할", "물적분할", "인적분할"])
+        self.assertEqual(_names("주가수익비율(PER)"), ["주가수익비율", "PER"])
+        self.assertEqual(_names("간접금융/직접금융"), ["간접금융", "직접금융"])
+
+    def test_english_abbreviation_needs_word_boundary(self):
+        from finrag.rag.glossary_lookup import _mentioned
+        self.assertTrue(_mentioned("PER이 뭐야", "PER"))
+        self.assertFalse(_mentioned("PERCENT 단위", "PER"))
+
+    def test_pdf_line_join_keeps_word_boundaries(self):
+        from finrag.collect.glossary import _join
+        self.assertEqual(_join(["가계가 마음대로 소비와 저", "축으로 처분할 수 ", "있는 소득"]),
+                         "가계가 마음대로 소비와 저축으로 처분할 수 있는 소득")
+
+
 class MiscTest(unittest.TestCase):
     def test_mask_secrets_hides_query_keys(self):
         os.environ["DART_API_KEY"] = "abc123secret"
