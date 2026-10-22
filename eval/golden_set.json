@@ -1,0 +1,1066 @@
+{
+  "note": "청크 기반 LLM 초안(키워드 원문 일치 검수) + 두 가지 질문 + 사람이 쓴 질문 · 사람 검수 완료 (2026-10-22)",
+  "items": [
+    {
+      "id": "g01",
+      "type": "fact",
+      "stock_code": "005930",
+      "question": "삼성전자의 본사는 어느 도시에 위치해 있습니까?",
+      "answer_groups": [
+        [
+          "수원"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:005930",
+          "chunk_id": "005930",
+          "title": "삼성전자 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g02",
+      "type": "fact",
+      "stock_code": "005930",
+      "question": "삼성전자는 2010년 iF Material Award에서 몇 개의 제품으로 수상하였나요?",
+      "answer_groups": [
+        [
+          "5개"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:30945",
+          "chunk_id": "005930:wiki:30945:26",
+          "title": "삼성전자",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g03",
+      "type": "fact",
+      "stock_code": "005930",
+      "question": "2009년 삼성전자 휴대 전화 판매량은 몇 대였는가?",
+      "answer_groups": [
+        [
+          "2억 2700만"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:30945",
+          "chunk_id": "005930:wiki:30945:12",
+          "title": "삼성전자",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g04",
+      "type": "fact",
+      "stock_code": "005930",
+      "question": "Harman은 프리미엄 오디오 시장에서의 리더십 강화를 위해 2025년 3분기에 미국업체 Sound United를 인수하였습니까?",
+      "answer_groups": [
+        [
+          "Sound United"
+        ],
+        [
+          "2025년 3분기"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003699",
+          "chunk_id": "005930:dart:20260814003699:37",
+          "title": "반기보고서 (2026.06) · 7. 기타 참고사항",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g05",
+      "type": "fact",
+      "stock_code": "005930",
+      "question": "삼성전자 DS부문Foundry 사업부가 Tesla, Inc.와 체결한 반도체 위탁생산 계약의 계약 종료일은 언제인가요?",
+      "answer_groups": [
+        [
+          "2033"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003699",
+          "chunk_id": "005930:dart:20260814003699:18",
+          "title": "반기보고서 (2026.06) · 4. 매출 및 수주상황",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g06",
+      "type": "fact",
+      "stock_code": "000660",
+      "question": "SK하이닉스의 본사 주소는 어디인가?",
+      "answer_groups": [
+        [
+          "이천"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:000660",
+          "chunk_id": "000660",
+          "title": "SK하이닉스 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g07",
+      "type": "fact",
+      "stock_code": "000660",
+      "question": "SK하이닉스가 하이닉스반도체에서 SK하이닉스로 사명을 변경한 날짜는 언제인가?",
+      "answer_groups": [
+        [
+          "2012년 3월 26일"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:145067",
+          "chunk_id": "000660:wiki:145067:1",
+          "title": "SK하이닉스",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g09",
+      "type": "fact",
+      "stock_code": "000660",
+      "question": "SK하이닉스의 주요 DRAM 매출처는 어떤 업종의 업체들인가?",
+      "answer_groups": [
+        [
+          "모바일"
+        ],
+        [
+          "컴퓨팅"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003509",
+          "chunk_id": "000660:dart:20260814003509:15",
+          "title": "반기보고서 (2026.06) · 4. 매출 및 수주상황",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g10",
+      "type": "fact",
+      "stock_code": "000660",
+      "question": "SK하이닉스의 2026년 반기 누적 유형자산 취득 기준 기투자액(누적)은 얼마인가?",
+      "answer_groups": [
+        [
+          "17,595"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003509",
+          "chunk_id": "000660:dart:20260814003509:14",
+          "title": "반기보고서 (2026.06) · 3. 원재료 및 생산설비",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g11",
+      "type": "fact",
+      "stock_code": "373220",
+      "question": "LG에너지솔루션의 설립일은 언제인가요?",
+      "answer_groups": [
+        [
+          "2020"
+        ],
+        [
+          "12월",
+          "-12-"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:373220",
+          "chunk_id": "373220",
+          "title": "LG에너지솔루션 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g12",
+      "type": "fact",
+      "stock_code": "373220",
+      "question": "LG에너지솔루션이 코스피에 상장한 날짜는 언제인가요?",
+      "answer_groups": [
+        [
+          "2022년 1월 27일"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:2884010",
+          "chunk_id": "373220:wiki:2884010:0",
+          "title": "LG에너지솔루션",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g14",
+      "type": "fact",
+      "stock_code": "373220",
+      "question": "LG에너지솔루션의 제7기 반기 연구개발비용(정부보조금 차감 전)은 얼마인가?",
+      "answer_groups": [
+        [
+          "725,884"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260813000255",
+          "chunk_id": "373220:dart:20260813000255:23",
+          "title": "반기보고서 (2026.06) · 6. 주요계약 및 연구개발활동",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g15",
+      "type": "fact",
+      "stock_code": "000270",
+      "question": "기아의 본사는 어디에 위치하고 있는가?",
+      "answer_groups": [
+        [
+          "헌릉로"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:000270",
+          "chunk_id": "000270",
+          "title": "기아 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g16",
+      "type": "fact",
+      "stock_code": "000270",
+      "question": "기아는 2005년에 어느 유명 자동차 디자이너를 디자인 총괄 부사장으로 영입했는가?",
+      "answer_groups": [
+        [
+          "피터 슈라이어"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:30775",
+          "chunk_id": "000270:wiki:30775:4",
+          "title": "기아 (기업)",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g17",
+      "type": "fact",
+      "stock_code": "000270",
+      "question": "기아는 1987년에 어떤 기술 제휴를 통해 전륜구동 소형 월드카 프라이드를 출시했는가?",
+      "answer_groups": [
+        [
+          "마쓰다"
+        ],
+        [
+          "포드"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:30775",
+          "chunk_id": "000270:wiki:30775:2",
+          "title": "기아 (기업)",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g18",
+      "type": "fact",
+      "stock_code": "000270",
+      "question": "기아의 2026년도 예상 국내공장 투자금액은 얼마인가?",
+      "answer_groups": [
+        [
+          "27,132"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003932",
+          "chunk_id": "000270:dart:20260814003932:12",
+          "title": "반기보고서 (2026.06) · 3. 원재료 및 생산설비",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g19",
+      "type": "fact",
+      "stock_code": "000270",
+      "question": "기아의 부채비율은 제 83기 반기말과 제 82기말에 각각 얼마였습니까?",
+      "answer_groups": [
+        [
+          "65.14"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003932",
+          "chunk_id": "000270:dart:20260814003932:19",
+          "title": "반기보고서 (2026.06) · 5. 위험관리 및 파생거래",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g20",
+      "type": "fact",
+      "stock_code": "035420",
+      "question": "NAVER의 대표자는 누구인가?",
+      "answer_groups": [
+        [
+          "최수연"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:035420",
+          "chunk_id": "035420",
+          "title": "NAVER 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g21",
+      "type": "fact",
+      "stock_code": "035420",
+      "question": "쥬니어네이버 서비스가 종료된 날짜는 언제인가?",
+      "answer_groups": [
+        [
+          "2025년 5월 27일"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:19949",
+          "chunk_id": "035420:wiki:19949:3",
+          "title": "네이버",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g22",
+      "type": "fact",
+      "stock_code": "035420",
+      "question": "공정거래위원회가 네이버 쇼핑 검색 알고리즘 조작 혐의로 부과한 과징금 액수는 얼마인가?",
+      "answer_groups": [
+        [
+          "267억"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:19949",
+          "chunk_id": "035420:wiki:19949:12",
+          "title": "네이버",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g23",
+      "type": "fact",
+      "stock_code": "035420",
+      "question": "NAVER는 환율변동 위험을 회피하기 위해 2026년 6월 30일 기준으로 USD 통화선도 계약에서 총 얼마의 계약금액을 보유하고 있습니까?",
+      "answer_groups": [
+        [
+          "50,817"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814002266",
+          "chunk_id": "035420:dart:20260814002266:12",
+          "title": "반기보고서 (2026.06) · 5. 위험관리 및 파생거래",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g24",
+      "type": "fact",
+      "stock_code": "035420",
+      "question": "NAVER의 프랑스 내 건설중인자산의 2023년 합계 금액은 얼마인가?",
+      "answer_groups": [
+        [
+          "7,928"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814002266",
+          "chunk_id": "035420:dart:20260814002266:9",
+          "title": "반기보고서 (2026.06) · 3. 원재료 및 생산설비",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g25",
+      "type": "fact",
+      "stock_code": "035720",
+      "question": "카카오의 본사는 어떤 도시에 위치해 있습니까?",
+      "answer_groups": [
+        [
+          "제주시"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:035720",
+          "chunk_id": "035720",
+          "title": "카카오 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g26",
+      "type": "fact",
+      "stock_code": "035720",
+      "question": "카카오는 임직원들끼리 서로를 어떻게 부르도록 규정하고 있는가?",
+      "answer_groups": [
+        [
+          "영어"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:1315444",
+          "chunk_id": "035720:wiki:1315444:5",
+          "title": "카카오 (기업)",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g27",
+      "type": "fact",
+      "stock_code": "035720",
+      "question": "카카오는 언제 코스피에 이전상장했습니까?",
+      "answer_groups": [
+        [
+          "2017년 7월"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:1315444",
+          "chunk_id": "035720:wiki:1315444:1",
+          "title": "카카오 (기업)",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g28",
+      "type": "fact",
+      "stock_code": "035720",
+      "question": "카카오는 안산시 어느 대학 캠퍼스에 데이터센터를 건립했습니까?",
+      "answer_groups": [
+        [
+          "ERICA"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003797",
+          "chunk_id": "035720:dart:20260814003797:13",
+          "title": "반기보고서 (2026.06) · 3. (제조서비스업)원재료 및 생산설비",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g29",
+      "type": "fact",
+      "stock_code": "035720",
+      "question": "2025년 카카오 온라인 커머스 부문에서 국내 이커머스 시장 규모는 얼마로 예상되고 있습니까?",
+      "answer_groups": [
+        [
+          "272조"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814003797",
+          "chunk_id": "035720:dart:20260814003797:37",
+          "title": "반기보고서 (2026.06) · 7. (제조서비스업)기타 참고사항",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g30",
+      "type": "fact",
+      "stock_code": "105560",
+      "question": "KB금융의 대표자는 누구인가요?",
+      "answer_groups": [
+        [
+          "양종희"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:105560",
+          "chunk_id": "105560",
+          "title": "KB금융 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g32",
+      "type": "fact",
+      "stock_code": "105560",
+      "question": "KB금융그룹의 본사는 어느 도시에 위치해 있습니까?",
+      "answer_groups": [
+        [
+          "영등포"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:285728",
+          "chunk_id": "105560:wiki:285728:0",
+          "title": "KB금융그룹",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g33",
+      "type": "fact",
+      "stock_code": "105560",
+      "question": "KB금융의 본사는 2025년 5월 7일에 어디로 이전되었는가?",
+      "answer_groups": [
+        [
+          "강남대로298"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814004200",
+          "chunk_id": "105560:dart:20260814004200:38",
+          "title": "반기보고서 (2026.06) · 2. 회사의 연혁",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g34",
+      "type": "fact",
+      "stock_code": "105560",
+      "question": "KB금융이 2025년 1월 9일에 발행한 상각형조건부자본증권의 신용등급은 무엇인가?",
+      "answer_groups": [
+        [
+          "AA-"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814004200",
+          "chunk_id": "105560:dart:20260814004200:7",
+          "title": "반기보고서 (2026.06) · 1. 회사의 개요",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g35",
+      "type": "fact",
+      "stock_code": "323410",
+      "question": "카카오뱅크의 대표자는 누구인가?",
+      "answer_groups": [
+        [
+          "윤호영"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:323410",
+          "chunk_id": "323410",
+          "title": "카카오뱅크 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g36",
+      "type": "fact",
+      "stock_code": "323410",
+      "question": "카카오뱅크 체크카드는 KB국민카드의 어떤 카드망을 기반으로 출시되었나요?",
+      "answer_groups": [
+        [
+          "KB국민카드"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:1810738",
+          "chunk_id": "323410:wiki:1810738:1",
+          "title": "카카오뱅크",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g38",
+      "type": "fact",
+      "stock_code": "323410",
+      "question": "카카오뱅크의 매매목적거래(은행계정) 중 잔액이 가장 큰 파생상품은 무엇인가요?",
+      "answer_groups": [
+        [
+          "선도"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814002834",
+          "chunk_id": "323410:dart:20260814002834:22",
+          "title": "반기보고서 (2026.06) · 3. 파생상품거래 현황",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g39",
+      "type": "fact",
+      "stock_code": "323410",
+      "question": "카카오뱅크의 2024년 말 원화예수금 시장점유율은 몇 퍼센트인가?",
+      "answer_groups": [
+        [
+          "3.9"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "dart:20260814002834",
+          "chunk_id": "323410:dart:20260814002834:30",
+          "title": "반기보고서 (2026.06) · 5. 재무건전성 등 기타 참고사항",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "g40",
+      "type": "fact",
+      "stock_code": "005380",
+      "question": "현대차의 설립일은 언제인가요?",
+      "answer_groups": [
+        [
+          "1967"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "meta:005380",
+          "chunk_id": "005380",
+          "title": "현대차 기업 정보",
+          "source_type": "meta"
+        }
+      ]
+    },
+    {
+      "id": "g41",
+      "type": "fact",
+      "stock_code": "005380",
+      "question": "현대차는 미국 시장에 10년 10만 마일 무상보증 조치를 도입한 연도는 언제인가요?",
+      "answer_groups": [
+        [
+          "1998"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:9801",
+          "chunk_id": "005380:wiki:9801:1",
+          "title": "현대자동차",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g42",
+      "type": "fact",
+      "stock_code": "005380",
+      "question": "현대차 스타렉스의 출시 당시 캐치프레이즈는 무엇이었는가?",
+      "answer_groups": [
+        [
+          "패밀리 왜건"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:9801",
+          "chunk_id": "005380:wiki:9801:28",
+          "title": "현대자동차",
+          "source_type": "wiki"
+        }
+      ]
+    },
+    {
+      "id": "g43",
+      "type": "term",
+      "stock_code": "000270",
+      "question": "기업회생절차에서 법원이 회생신청을 받아들이면 기업의 경영을 책임지는 사람은 누구인가?",
+      "answer_groups": [
+        [
+          "관리인"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "glossary:term151",
+          "chunk_id": "term:151:0",
+          "title": "기업회생절차 (경제금융용어 800선 p.75)",
+          "source_type": "glossary"
+        }
+      ]
+    },
+    {
+      "id": "g44",
+      "type": "term",
+      "stock_code": "005380",
+      "question": "기업어음(CP)은 어떤 기업이 단기자금 조달을 위해 발행하며, 주로 누가 할인 및 매출을 담당하는가?",
+      "answer_groups": [
+        [
+          "증권회사"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "glossary:term150",
+          "chunk_id": "term:150:0",
+          "title": "기업어음(CP) (경제금융용어 800선 p.75)",
+          "source_type": "glossary"
+        }
+      ]
+    },
+    {
+      "id": "g45",
+      "type": "term",
+      "stock_code": "005380",
+      "question": "원금리스크는 어떤 상황에서 거래상대방이 파산할 경우 발생하는 경제금융용어인가요?",
+      "answer_groups": [
+        [
+          "매입통화"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "glossary:term468",
+          "chunk_id": "term:468:0",
+          "title": "원금리스크 (경제금융용어 800선 p.239)",
+          "source_type": "glossary"
+        }
+      ]
+    },
+    {
+      "id": "g46",
+      "type": "term",
+      "stock_code": "035720",
+      "question": "국가신용등급을 평가하는 주요 국제신용평가기관에는 어떤 회사들이 있는가?",
+      "answer_groups": [
+        [
+          "무디스",
+          "Moody"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "glossary:term066",
+          "chunk_id": "term:066:0",
+          "title": "국가신용등급 (경제금융용어 800선 p.33)",
+          "source_type": "glossary"
+        }
+      ]
+    },
+    {
+      "id": "g47",
+      "type": "term",
+      "stock_code": "000660",
+      "question": "글로벌 공급망 압력지수(GSCPI)는 어떤 기관에서 매달 발표하는 경제 지표인가?",
+      "answer_groups": [
+        [
+          "뉴욕 연방준비은행",
+          "뉴욕연방준비은행"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "glossary:term110",
+          "chunk_id": "term:110:0",
+          "title": "글로벌 공급망 압력 지수 (경제금융용어 800선 p.55)",
+          "source_type": "glossary"
+        }
+      ]
+    },
+    {
+      "id": "m01",
+      "type": "multi",
+      "stock_code": "005930",
+      "question": "삼성전자는 2010년 iF Material Award에서 몇 개의 제품으로 수상하였나요? 그리고 Harman은 프리미엄 오디오 시장에서의 리더십 강화를 위해 2025년 3분기에 미국업체 Sound United를 인수하였습니까?",
+      "answer_groups": [
+        [
+          "5개"
+        ],
+        [
+          "Sound United"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:30945",
+          "chunk_id": "005930:wiki:30945:26",
+          "title": "삼성전자",
+          "source_type": "wiki"
+        },
+        {
+          "doc_key": "dart:20260814003699",
+          "chunk_id": "005930:dart:20260814003699:37",
+          "title": "반기보고서 (2026.06) · 7. 기타 참고사항",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "m02",
+      "type": "multi",
+      "stock_code": "000660",
+      "question": "SK하이닉스가 하이닉스반도체에서 SK하이닉스로 사명을 변경한 날짜는 언제인가? 그리고 SK하이닉스의 주요 DRAM 매출처는 어떤 업종의 업체들인가?",
+      "answer_groups": [
+        [
+          "2012년 3월 26일"
+        ],
+        [
+          "모바일"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:145067",
+          "chunk_id": "000660:wiki:145067:1",
+          "title": "SK하이닉스",
+          "source_type": "wiki"
+        },
+        {
+          "doc_key": "dart:20260814003509",
+          "chunk_id": "000660:dart:20260814003509:15",
+          "title": "반기보고서 (2026.06) · 4. 매출 및 수주상황",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "m03",
+      "type": "multi",
+      "stock_code": "373220",
+      "question": "LG에너지솔루션이 코스피에 상장한 날짜는 언제인가요? 그리고 LG에너지솔루션의 설립일자는 언제인가?",
+      "answer_groups": [
+        [
+          "2022년 1월 27일"
+        ],
+        [
+          "2020년 12월",
+          "2020-12"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:2884010",
+          "chunk_id": "373220:wiki:2884010:0",
+          "title": "LG에너지솔루션",
+          "source_type": "wiki"
+        },
+        {
+          "doc_key": "dart:20260813000255",
+          "chunk_id": "373220:dart:20260813000255:0",
+          "title": "반기보고서 (2026.06) · 1. 회사의 개요",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "m04",
+      "type": "multi",
+      "stock_code": "000270",
+      "question": "기아는 2005년에 어느 유명 자동차 디자이너를 디자인 총괄 부사장으로 영입했는가? 그리고 기아의 2026년도 예상 국내공장 투자금액은 얼마인가?",
+      "answer_groups": [
+        [
+          "피터 슈라이어"
+        ],
+        [
+          "27,132"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:30775",
+          "chunk_id": "000270:wiki:30775:4",
+          "title": "기아 (기업)",
+          "source_type": "wiki"
+        },
+        {
+          "doc_key": "dart:20260814003932",
+          "chunk_id": "000270:dart:20260814003932:12",
+          "title": "반기보고서 (2026.06) · 3. 원재료 및 생산설비",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "m05",
+      "type": "multi",
+      "stock_code": "035420",
+      "question": "쥬니어네이버 서비스가 종료된 날짜는 언제인가? 그리고 NAVER는 환율변동 위험을 회피하기 위해 2026년 6월 30일 기준으로 USD 통화선도 계약에서 총 얼마의 계약금액을 보유하고 있습니까?",
+      "answer_groups": [
+        [
+          "2025년 5월 27일"
+        ],
+        [
+          "50,817"
+        ]
+      ],
+      "gold": [
+        {
+          "doc_key": "wiki:19949",
+          "chunk_id": "035420:wiki:19949:3",
+          "title": "네이버",
+          "source_type": "wiki"
+        },
+        {
+          "doc_key": "dart:20260814002266",
+          "chunk_id": "035420:dart:20260814002266:12",
+          "title": "반기보고서 (2026.06) · 5. 위험관리 및 파생거래",
+          "source_type": "dart"
+        }
+      ]
+    },
+    {
+      "id": "h01",
+      "answer_groups": [],
+      "gold": [],
+      "stock_code": "035420",
+      "question": "네이버의 2030년 매출 전망은 얼마야?",
+      "type": "unknown"
+    },
+    {
+      "id": "h02",
+      "answer_groups": [],
+      "gold": [],
+      "stock_code": "000660",
+      "question": "SK하이닉스 직원들의 평균 출근 시간은 몇 시야?",
+      "type": "unknown"
+    },
+    {
+      "id": "h03",
+      "answer_groups": [],
+      "gold": [],
+      "stock_code": "323410",
+      "question": "카카오뱅크 대표이사가 좋아하는 음식은?",
+      "type": "unknown"
+    },
+    {
+      "id": "h04",
+      "answer_groups": [],
+      "gold": [],
+      "stock_code": "000270",
+      "question": "기아 주가 오를 거라던데 지금 사야 돼?",
+      "type": "refuse"
+    },
+    {
+      "id": "h05",
+      "answer_groups": [],
+      "gold": [],
+      "stock_code": "005930",
+      "question": "삼성전자 목표주가 얼마로 보면 돼?",
+      "type": "refuse"
+    },
+    {
+      "id": "h06",
+      "answer_groups": [],
+      "gold": [],
+      "stock_code": "105560",
+      "question": "KB금융 배당 받으려면 지금 들어가는 게 맞아?",
+      "type": "refuse"
+    }
+  ],
+  "dropped": [],
+  "review": {
+    "키워드 단순화": [
+      "g01",
+      "g02",
+      "g03",
+      "g05",
+      "g06",
+      "g09",
+      "g11",
+      "g15",
+      "g17",
+      "g19",
+      "g21",
+      "g22",
+      "g26",
+      "g27",
+      "g28",
+      "g29",
+      "g32",
+      "g36",
+      "g38",
+      "g39",
+      "g40",
+      "g41",
+      "g43",
+      "g44",
+      "g45",
+      "g46",
+      "g47",
+      "m01",
+      "m03"
+    ],
+    "제외": {
+      "g08": "g06과 같은 질문(본사 주소)",
+      "g13": "g11과 같은 질문(설립일)",
+      "g31": "질문에 정답이 들어 있음",
+      "g37": "정답 키워드('9월 완료')가 모호함"
+    }
+  }
+}

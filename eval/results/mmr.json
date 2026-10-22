@@ -1,0 +1,908 @@
+{
+  "summary": {
+    "label": "mmr",
+    "date": "2026-10-22",
+    "model": "gpt-5.4-nano",
+    "search_type": "mmr",
+    "top_k": 6,
+    "seconds": 278.8,
+    "decompose": false,
+    "rescored": "2026-10-22",
+    "n": 54,
+    "gold_recall": 1.0,
+    "chunk_recall": 0.84375,
+    "mrr": 0.47297453703703707,
+    "answer_in_context": 0.8958333333333334,
+    "accuracy": 0.8125,
+    "cited_gold": 0.9583333333333334,
+    "refusal": 1.0,
+    "by_type": {
+      "fact": {
+        "gold_recall": 1.0,
+        "chunk_recall": 0.8421052631578947,
+        "accuracy": 0.8157894736842105,
+        "refusal": null,
+        "n": 38,
+        "mrr": 0.5175438596491229
+      },
+      "term": {
+        "gold_recall": 1.0,
+        "chunk_recall": 1.0,
+        "accuracy": 1.0,
+        "refusal": null,
+        "n": 5,
+        "mrr": 0.10722222222222222
+      },
+      "multi": {
+        "gold_recall": 1.0,
+        "chunk_recall": 0.7,
+        "accuracy": 0.6,
+        "refusal": null,
+        "n": 5,
+        "mrr": 0.5
+      },
+      "unknown": {
+        "gold_recall": null,
+        "chunk_recall": null,
+        "accuracy": null,
+        "refusal": 1.0,
+        "n": 3,
+        "mrr": null
+      },
+      "refuse": {
+        "gold_recall": null,
+        "chunk_recall": null,
+        "accuracy": null,
+        "refusal": 1.0,
+        "n": 3,
+        "mrr": null
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "g01",
+      "type": "fact",
+      "question": "삼성전자의 본사는 어느 도시에 위치해 있습니까?",
+      "answer": "삼성전자의 본사는 **경기도 수원시**에 위치해 있습니다. [근거 1, 2]",
+      "contexts": 8,
+      "cited": [
+        "1:삼성전자 기업 정보",
+        "2:삼성전자"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g02",
+      "type": "fact",
+      "question": "삼성전자는 2010년 iF Material Award에서 몇 개의 제품으로 수상하였나요?",
+      "answer": "삼성전자는 **2010년 iF Material Award에서 총 5개 제품**으로 수상하였다고 합니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:삼성전자"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g03",
+      "type": "fact",
+      "question": "2009년 삼성전자 휴대 전화 판매량은 몇 대였는가?",
+      "answer": "2009년 삼성전자 휴대 전화 판매량은 **2억 2700만대**입니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:삼성전자"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g04",
+      "type": "fact",
+      "question": "Harman은 프리미엄 오디오 시장에서의 리더십 강화를 위해 2025년 3분기에 미국업체 Sound United를 인수하였습니까?",
+      "answer": "문서에서는 **그렇다고 확인됩니다.**  \nDART 반기보고서(2026.06, 기준일 2026-08-14)에서 Harman은 **“프리미엄 오디오 시장에서의 리더십 강화를 위해 B&W, Denon 및 Marantz 등의 브랜드를 보유한 미국업체 Sound United를 2025년 3분기에 인수”**했다고 명시되어 있습니다. [근거 4]",
+      "contexts": 9,
+      "cited": [
+        "4:반기보고서 (2026.06) · 7. 기타 참고사항"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g05",
+      "type": "fact",
+      "question": "삼성전자 DS부문Foundry 사업부가 Tesla, Inc.와 체결한 반도체 위탁생산 계약의 계약 종료일은 언제인가요?",
+      "answer": "삼성전자 DS부문의 Foundry 사업부가 **Tesla, Inc.**와 체결한 반도체 위탁생산 계약의 **계약 종료일은 2033-12-31** 입니다. [근거 4]",
+      "contexts": 9,
+      "cited": [
+        "4:반기보고서 (2026.06) · 4. 매출 및 수주상황"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g06",
+      "type": "fact",
+      "question": "SK하이닉스의 본사 주소는 어디인가?",
+      "answer": "SK하이닉스의 본사 주소는 **경기도 이천시 부발읍 경충대로 2091**입니다. [근거 1, 4]",
+      "contexts": 7,
+      "cited": [
+        "1:SK하이닉스 기업 정보",
+        "4:반기보고서 (2026.06) · 2. 회사의 연혁"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g07",
+      "type": "fact",
+      "question": "SK하이닉스가 하이닉스반도체에서 SK하이닉스로 사명을 변경한 날짜는 언제인가?",
+      "answer": "SK하이닉스는 **하이닉스반도체에서 에스케이하이닉스로 사명을 변경한 날짜가 2012년 3월**로 문서에서 확인됩니다. [근거 2]",
+      "contexts": 7,
+      "cited": [
+        "2:SK하이닉스"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "g09",
+      "type": "fact",
+      "question": "SK하이닉스의 주요 DRAM 매출처는 어떤 업종의 업체들인가?",
+      "answer": "제공된 문서에서는 **SK하이닉스의 주요 DRAM 매출처가 특정 “업종(업체들)”이 무엇인지**를 직접적으로 확인할 수 없습니다.\n\n다만, **반기보고서(2026.06)** 기준으로 **반도체 부문 매출유형/품목의 구체적 적용도**는 아래처럼 기재되어 있습니다.  \n- **DRAM** 및 **NAND Flash 등**(반도체 부문, 제품 외) → **“산업용 전자기기”**에 적용(매출액 131,895,033백만원, 100%)[근거 4]\n\n따라서 문서상 확인 가능한 수준에서의 답은, **DRAM의 구체적 적용도는 ‘산업용 전자기기’**로 기재되어 있다는 점입니다. [근거 4]",
+      "contexts": 7,
+      "cited": [
+        "4:반기보고서 (2026.06) · 2. 주요 제품 및 서비스"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.0,
+      "rr": 0.25,
+      "answer_in_context": false,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "g10",
+      "type": "fact",
+      "question": "SK하이닉스의 2026년 반기 누적 유형자산 취득 기준 기투자액(누적)은 얼마인가?",
+      "answer": "제공된 문서(근거 4)에서 확인되는 **2026년 반기 누적 “유형자산 취득(투자집행) 기준”의 기투자액(누적)**은 **17,595(단위: 십억원)** 입니다. [근거 4]",
+      "contexts": 8,
+      "cited": [
+        "4:반기보고서 (2026.06) · 3. 원재료 및 생산설비"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g11",
+      "type": "fact",
+      "question": "LG에너지솔루션의 설립일은 언제인가요?",
+      "answer": "LG에너지솔루션의 **설립일은 2020-12-01**입니다. [근거 1]",
+      "contexts": 8,
+      "cited": [
+        "1:LG에너지솔루션 기업 정보"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g12",
+      "type": "fact",
+      "question": "LG에너지솔루션이 코스피에 상장한 날짜는 언제인가요?",
+      "answer": "LG에너지솔루션은 **2022년 1월 27일** 코스피에 상장했습니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:LG에너지솔루션"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g14",
+      "type": "fact",
+      "question": "LG에너지솔루션의 제7기 반기 연구개발비용(정부보조금 차감 전)은 얼마인가?",
+      "answer": "LG에너지솔루션의 **제7기 반기 연구개발비용(정부보조금 차감 전)**은 **725,884백만원**입니다. [근거 4]",
+      "contexts": 9,
+      "cited": [
+        "4:반기보고서 (2026.06) · 6. 주요계약 및 연구개발활동"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g15",
+      "type": "fact",
+      "question": "기아의 본사는 어디에 위치하고 있는가?",
+      "answer": "기아의 본사는 **서울특별시 서초구 헌릉로 12 (양재동)**에 위치해 있습니다. [근거 1, 2]",
+      "contexts": 7,
+      "cited": [
+        "1:기아 기업 정보",
+        "2:기아 (기업)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g16",
+      "type": "fact",
+      "question": "기아는 2005년에 어느 유명 자동차 디자이너를 디자인 총괄 부사장으로 영입했는가?",
+      "answer": "기아는 **2005년**에 **피터 슈라이어(Peter Schreyer)**를 **디자인 총괄 부사장**으로 영입했습니다. [근거 5]",
+      "contexts": 7,
+      "cited": [
+        "5:기아 (기업)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g17",
+      "type": "fact",
+      "question": "기아는 1987년에 어떤 기술 제휴를 통해 전륜구동 소형 월드카 프라이드를 출시했는가?",
+      "answer": "기아는 **1987년에 마쓰다와 포드의 기술 제휴를 통해** 전륜구동 소형 월드카 **프라이드**를 출시했습니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:기아 (기업)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g18",
+      "type": "fact",
+      "question": "기아의 2026년도 예상 국내공장 투자금액은 얼마인가?",
+      "answer": "제공된 문서에서 **기아의 2026년도 “예상” 국내공장 투자금액**은 확인되지 않습니다.  \n\n다만, DART 반기보고서(2026.06)에는 **진행중인 투자 내역**으로 **국내공장 투자금액(현재까지 진행된 내역)**이 **7,253억 원**으로 기재되어 있습니다. [근거 4]  \n- “투자효과: 신제품개발, 공장신증설, 보완투자 등 / 투자금액: 7,253(단위: 억원)” [근거 4]  \n- 이 금액은 보고서에 나온 **진행된 투자 내역(보고서 작성 기준일까지)** 기준이며, “2026년도 예상”이라고 명시되지는 않습니다. [근거 4]",
+      "contexts": 7,
+      "cited": [
+        "4:반기보고서 (2026.06) · 3. 원재료 및 생산설비"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.0,
+      "rr": 0.25,
+      "answer_in_context": false,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "g19",
+      "type": "fact",
+      "question": "기아의 부채비율은 제 83기 반기말과 제 82기말에 각각 얼마였습니까?",
+      "answer": "제공된 문서([근거 1]~[근거 8], [근거 9])에서는 **기아의 부채비율(제 83기 반기말, 제 82기말)** 값이 **직접 제시되어 있지 않아** 확인할 수 없습니다.  \n\n다만, 문서에는 “부채비율”의 정의([근거 9])는 있으나, 이를 계산하기 위한 **기아의 자기자본 및 유동/비유동부채 수치**가 제시된 형태로는 제공되지 않았습니다.  \n\n따라서 **제 83기 반기말과 제 82기말 부채비율은 제공된 문서에서 확인되지 않습니다.**",
+      "contexts": 9,
+      "cited": [
+        "9:부채비율 (경제금융용어 800선 p.145)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.0,
+      "rr": 0.25,
+      "answer_in_context": false,
+      "accuracy": false,
+      "cited_gold": false
+    },
+    {
+      "id": "g20",
+      "type": "fact",
+      "question": "NAVER의 대표자는 누구인가?",
+      "answer": "NAVER(네이버)의 대표자는 **최수연**입니다. [근거 1]",
+      "contexts": 8,
+      "cited": [
+        "1:NAVER 기업 정보"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g21",
+      "type": "fact",
+      "question": "쥬니어네이버 서비스가 종료된 날짜는 언제인가?",
+      "answer": "쥬니어네이버 서비스는 **2025년 5월 27일 오후 3시**에 종료되었습니다. [근거 2]",
+      "contexts": 7,
+      "cited": [
+        "2:네이버"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g22",
+      "type": "fact",
+      "question": "공정거래위원회가 네이버 쇼핑 검색 알고리즘 조작 혐의로 부과한 과징금 액수는 얼마인가?",
+      "answer": "공정거래위원회가 **네이버 쇼핑 검색 알고리즘 조작** 관련해 부과한 과징금은 **267억**입니다. [근거 2]  \n(문서에는 **쇼핑 부분 265억**, **동영상 부분 2억**으로도 나뉘어 기재되어 있습니다.) [근거 2]",
+      "contexts": 7,
+      "cited": [
+        "2:네이버"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g23",
+      "type": "fact",
+      "question": "NAVER는 환율변동 위험을 회피하기 위해 2026년 6월 30일 기준으로 USD 통화선도 계약에서 총 얼마의 계약금액을 보유하고 있습니까?",
+      "answer": "NAVER은 **2026년 6월 30일 기준** 환율변동으로 인한 미래현금흐름의 변동위험을 회피하기 위해 **USD 통화선도 계약(위험회피 목적 파생상품)**을 체결하고 있으며, 해당 계약의 **총 계약금액은 50,817백만원**입니다. [근거 4]",
+      "contexts": 9,
+      "cited": [
+        "4:반기보고서 (2026.06) · 5. 위험관리 및 파생거래"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g24",
+      "type": "fact",
+      "question": "NAVER의 프랑스 내 건설중인자산의 2023년 합계 금액은 얼마인가?",
+      "answer": "제공된 문서([근거 4])에는 **프랑스의 “건설중인자산” 항목**은 확인되지만, **해당 값이 2023년인지 여부**(또는 2023년 기준 합계)를 확인할 수 없습니다. 따라서 **“프랑스 내 건설중인자산의 2023년 합계 금액”**은 문서에서 확인되지 않습니다.",
+      "contexts": 9,
+      "cited": [
+        "4:반기보고서 (2026.06) · 3. 원재료 및 생산설비"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "g25",
+      "type": "fact",
+      "question": "카카오의 본사는 어떤 도시에 위치해 있습니까?",
+      "answer": "카카오의 본사는 **제주특별자치도 제주시**에 위치해 있습니다. [근거 1] (본사 주소: 제주특별자치도 제주시 첨단로 242, 카카오 스페이스닷원)",
+      "contexts": 7,
+      "cited": [
+        "1:카카오 기업 정보"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g26",
+      "type": "fact",
+      "question": "카카오는 임직원들끼리 서로를 어떻게 부르도록 규정하고 있는가?",
+      "answer": "카카오는 임직원들끼리 다른 임직원을 **직급 등 호칭 없이, 해당 직원의 영어식 이름만** 부르도록 규정하고 있습니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:카카오 (기업)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g27",
+      "type": "fact",
+      "question": "카카오는 언제 코스피에 이전상장했습니까?",
+      "answer": "카카오는 **2017-07-01** 코스피에 **이전상장**했습니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:카카오 (기업)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g28",
+      "type": "fact",
+      "question": "카카오는 안산시 어느 대학 캠퍼스에 데이터센터를 건립했습니까?",
+      "answer": "카카오는 **안산시 한양대 ERICA 캠퍼스**에 데이터센터를 구축했습니다. [근거 6]",
+      "contexts": 7,
+      "cited": [
+        "6:반기보고서 (2026.06) · 3. (제조서비스업)원재료 및 생산설비"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.16666666666666666,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g29",
+      "type": "fact",
+      "question": "2025년 카카오 온라인 커머스 부문에서 국내 이커머스 시장 규모는 얼마로 예상되고 있습니까?",
+      "answer": "제공된 문서에서는 **2025년 국내 이커머스 시장 규모(거래액 기준)**가 아래와 같이 제시되어 있습니다. [근거 7]\n\n- **2025년 국내 이커머스 시장 규모(거래액 기준): 272조 398억원** [근거 7]",
+      "contexts": 9,
+      "cited": [
+        "7:반기보고서 (2026.06) · 7. (제조서비스업)기타 참고사항"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g30",
+      "type": "fact",
+      "question": "KB금융의 대표자는 누구인가요?",
+      "answer": "KB금융의 대표자는 **양종희**입니다. [근거 1]",
+      "contexts": 8,
+      "cited": [
+        "1:KB금융 기업 정보"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g32",
+      "type": "fact",
+      "question": "KB금융그룹의 본사는 어느 도시에 위치해 있습니까?",
+      "answer": "KB금융그룹의 본사는 **서울특별시**에 위치해 있습니다. [근거 1, 2]",
+      "contexts": 8,
+      "cited": [
+        "1:KB금융 기업 정보",
+        "2:KB금융그룹"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "g33",
+      "type": "fact",
+      "question": "KB금융의 본사는 2025년 5월 7일에 어디로 이전되었는가?",
+      "answer": "KB금융의 본사는 **2025년 5월 7일에 “서울시 강남구 강남대로298”로 본사 이전**되었습니다. [근거 4]  \n(기준일: [근거 4]의 문서 기준 2026-08-14)",
+      "contexts": 8,
+      "cited": [
+        "4:반기보고서 (2026.06) · 2. 회사의 연혁"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g34",
+      "type": "fact",
+      "question": "KB금융이 2025년 1월 9일에 발행한 상각형조건부자본증권의 신용등급은 무엇인가?",
+      "answer": "제공된 문서에서 **KB금융이 2025년 1월 9일 발행한 ‘상각형조건부자본증권’의 신용등급**은 확인되지 않습니다.",
+      "contexts": 10,
+      "cited": [],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": false,
+      "cited_gold": false
+    },
+    {
+      "id": "g35",
+      "type": "fact",
+      "question": "카카오뱅크의 대표자는 누구인가?",
+      "answer": "카카오뱅크의 대표자는 **윤호영**입니다. [근거 1]",
+      "contexts": 8,
+      "cited": [
+        "1:카카오뱅크 기업 정보"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g36",
+      "type": "fact",
+      "question": "카카오뱅크 체크카드는 KB국민카드의 어떤 카드망을 기반으로 출시되었나요?",
+      "answer": "카카오뱅크 체크카드는 **KB국민카드의 카드망**을 기반으로 출시되었습니다. [근거 3]",
+      "contexts": 7,
+      "cited": [
+        "3:카카오뱅크"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g38",
+      "type": "fact",
+      "question": "카카오뱅크의 매매목적거래(은행계정) 중 잔액이 가장 큰 파생상품은 무엇인가요?",
+      "answer": "제공된 문서([근거 6])의 **반기보고서(2026.06) 파생상품거래 현황(은행계정)** 기준으로, **매매목적거래(은행계정)에서 파생상품의 잔액**은 다음과 같습니다.\n\n- **매매목적거래(은행계정) 잔액:** **1,725억 원**[근거 6]  \n- 이 중 **선도 잔액:** **1,327억 원**[근거 6]  \n- **선물 잔액:** **398억 원**[근거 6]  \n\n따라서 **매매목적거래(은행계정) 중 잔액이 가장 큰 파생상품은 ‘선도’**입니다. (잔액 **1,327억 원**) [근거 6]  \n\n*기준일(문서 내):* **2026-08-14** [근거 6]",
+      "contexts": 8,
+      "cited": [
+        "6:반기보고서 (2026.06) · 3. 파생상품거래 현황"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g39",
+      "type": "fact",
+      "question": "카카오뱅크의 2024년 말 원화예수금 시장점유율은 몇 퍼센트인가?",
+      "answer": "카카오뱅크의 **2024년 말 원화예수금 시장점유율은 3.9%**입니다. [근거 4] (DART 공시 반기보고서(2026.06) 기준일 **2026-08-14**)",
+      "contexts": 8,
+      "cited": [
+        "4:반기보고서 (2026.06) · 5. 재무건전성 등 기타 참고사항"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.25,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g40",
+      "type": "fact",
+      "question": "현대차의 설립일은 언제인가요?",
+      "answer": "현대자동차의 설립일은 **1967-12-29**입니다. [근거 1, 2]",
+      "contexts": 8,
+      "cited": [
+        "1:현대차 기업 정보",
+        "2:현대자동차"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 1.0,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g41",
+      "type": "fact",
+      "question": "현대차는 미국 시장에 10년 10만 마일 무상보증 조치를 도입한 연도는 언제인가요?",
+      "answer": "현대차가 미국 시장에 **10년 10만 마일 무상보증 조치**를 도입한 연도는 **1998년 9월**입니다. [근거 2]",
+      "contexts": 8,
+      "cited": [
+        "2:현대자동차"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g42",
+      "type": "fact",
+      "question": "현대차 스타렉스의 출시 당시 캐치프레이즈는 무엇이었는가?",
+      "answer": "현대차 스타렉스의 출시 당시 캐치프레이즈는 **“패밀리 왜건”**입니다. [근거 2]",
+      "contexts": 7,
+      "cited": [
+        "2:현대자동차"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g43",
+      "type": "term",
+      "question": "기업회생절차에서 법원이 회생신청을 받아들이면 기업의 경영을 책임지는 사람은 누구인가?",
+      "answer": "### 쉽게 말하면\n기업회생절차에서 법원이 회생신청을 **받아들이면**, 법원이 **선임한 관리인이** 기업의 경영을 책임집니다. [근거 9]\n\n### 실무에서의 의미\n회생신청이 기각되면 기업은 **파산절차**로 들어가지만, 받아들여지면 경영 책임이 기업 내부가 아니라 **법원이 선임한 관리인**에게 넘어갑니다. [근거 9]  \n즉, 절차가 진행되는 동안 기업 경영은 “법원 관리 하에서” 이루어진다는 점이 핵심입니다. [근거 9]\n\n### 이 기업과의 연결\n기업 문서에서 **기아가 기업회생절차에서 법원의 회생신청이 받아들여진 사실**이 직접 언급되지 않습니다. 제공된 문서에서는 기아의 기업회생절차 관련 언급을 확인할 수 없습니다.",
+      "contexts": 11,
+      "cited": [
+        "9:기업회생절차 (경제금융용어 800선 p.75)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.1111111111111111,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g44",
+      "type": "term",
+      "question": "기업어음(CP)은 어떤 기업이 단기자금 조달을 위해 발행하며, 주로 누가 할인 및 매출을 담당하는가?",
+      "answer": "### 쉽게 말하면\n기업어음(CP)은 **신용상태가 양호한 기업**이, 상거래와 직접 관계없이 **운전자금 등 단기자금**을 마련하려고 **자기신용을 바탕으로 발행하는 단기 금융상품(융통어음)**입니다. [근거 10]\n\n주로 **증권회사**가 CP의 **할인(사서 현금화)**과 **매출(유통)**을 담당합니다. [근거 10]\n\n### 실무에서의 의미\n- CP는 발행이 비교적 **간편**하고, 보통 **담보 없이 신용으로 발행**되며, 대출 대비 **금리메리트**가 있어 기업의 **단기자금 조달 수단**으로 활용됩니다. [근거 10]\n- CP의 **할인 및 매출은 주로 증권회사**가 담당합니다. [근거 10]\n- CP를 주로 사들이는(매입) 쪽에는 **자산운용회사의 MMF**, **은행신탁**, **증권신탁** 등이 포함됩니다. [근거 10]\n\n### 이 기업과의 연결\n기업 문서에서 이 용어(기업어음(CP))가 **현대차에 대해 직접 언급되지 않습니다**. 다만, 제공된 문서에는 현대차의 회사 정보(설립일, 본사 등)만 확인됩니다. [근거 1]",
+      "contexts": 12,
+      "cited": [
+        "1:현대차 기업 정보",
+        "10:기업어음(CP) (경제금융용어 800선 p.75)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.1,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g45",
+      "type": "term",
+      "question": "원금리스크는 어떤 상황에서 거래상대방이 파산할 경우 발생하는 경제금융용어인가요?",
+      "answer": "### 쉽게 말하면\n원금리스크는 **외환거래처럼 돈을 주고받는 과정에서 한쪽 통화는 이미 지급했는데(또는 취소할 수 없는데)** 상대방이 **파산**해서 **받아야 할 돈(매입통화)을 전액 못 받게 되는 상황**에서 생길 수 있는 리스크입니다. [근거 8]\n\n### 실무에서의 의미\n- 특히 **매도통화를 이미 지급**했거나 **지급을 취소할 수 없는 상황**에서, **거래상대방 파산**으로 **매입통화를 전액 수취하지 못하는** 위험을 말합니다. [근거 8]\n- 환거래는 양방향으로 일어나지만, **결제가 동시에 이루어지지 않기 때문에** 원금리스크가 발생할 수 있다고 설명합니다. [근거 8]\n\n### 이 기업과의 연결\n현대차 관련 문서에서 **원금리스크** 용어가 직접 언급되지 않습니다. (다만, 원금리스크는 한국은행 용어집에서 **외환결제리스크**의 한 유형으로 정의되어 있습니다.) [근거 8]",
+      "contexts": 10,
+      "cited": [
+        "8:원금리스크 (경제금융용어 800선 p.239)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.125,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g46",
+      "type": "term",
+      "question": "국가신용등급을 평가하는 주요 국제신용평가기관에는 어떤 회사들이 있는가?",
+      "answer": "### 쉽게 말하면\n국가신용등급은 “한 나라가 빚을 갚을 능력과 의지”를 평가한 등급인데, 이를 매기는 데에는 국제 신용평가기관이 참여합니다. 제공된 문서에서는 대표 기관으로 **스탠더드&푸어스(S&P)**, **무디스(Moody’s)**, **피치(Fitch)**를 들고 있습니다. [근거 10]\n\n### 실무에서의 의미\n국가신용등급이 매겨지면, 국제금융시장에서 **차입금리**나 **투자여건**을 판단하는 기준으로 활용될 수 있습니다. 또한 국가신용등급은 해당 국가 내 **기업이나 금융기관의 개별 신용등급을 결정하는 기준**이 되기도 해서, 등급이 상향조정되면 정부와 기업·금융기관이 **더 낮은 가산금리(위험 프리미엄)**로 외화자금을 조달해 **외화차입 비용을 줄일 수** 있습니다. [근거 10]\n\n### 이 기업과의 연결\n기업 문서에서 “국가신용등급” 관련 용어가 직접 언급되지는 않습니다. 다만, 한국은행 용어집의 정의상 국가신용등급 평가는 국제 신용평가기관(예: S&P, 무디스, 피치)에 의해 이뤄질 수 있다는 점만 확인됩니다. [근거 10]",
+      "contexts": 12,
+      "cited": [
+        "10:국가신용등급 (경제금융용어 800선 p.33)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.1,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "g47",
+      "type": "term",
+      "question": "글로벌 공급망 압력지수(GSCPI)는 어떤 기관에서 매달 발표하는 경제 지표인가?",
+      "answer": "### 쉽게 말하면\n글로벌 공급망 압력 지수(GSCPI)는 **국제 교역 과정에서 공급망이 얼마나 잘 작동하는지**를 보여주는 지표입니다. **수치가 0에 가까우면 공급망이 정상적**이고, **0보다 크면 공급망에 압력이 커서 차질이 심한 상태**를 뜻합니다. [근거 10]\n\n### 실무에서의 의미\nGSCPI는 **미국 뉴욕 연방준비은행(Federal Reserve Bank of New York)**이 **세계 각국의 무역·물류·운송 관련 데이터를 분석**해 **매달 발표**합니다. [근거 10] 또한 정책 결정자들이 **공급망 리스크 판단**에 활용하며, **인플레이션 예측**과 **글로벌 경기 흐름 파악**에도 도움이 된다고 설명합니다. [근거 10]\n\n### 이 기업과의 연결\n기업 문서에서 이 용어(GSCPI)가 직접 언급되지는 않습니다. 제공된 기업 근거(예: DART 반기보고서)에서는 GSCPI 관련 문구를 확인할 수 없습니다.",
+      "contexts": 12,
+      "cited": [
+        "10:글로벌 공급망 압력 지수 (경제금융용어 800선 p.55)"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.1,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "m01",
+      "type": "multi",
+      "question": "삼성전자는 2010년 iF Material Award에서 몇 개의 제품으로 수상하였나요? 그리고 Harman은 프리미엄 오디오 시장에서의 리더십 강화를 위해 2025년 3분기에 미국업체 Sound United를 인수하였습니까?",
+      "answer": "1) 삼성전자는 2010년 iF Material Award에서 **총 5개 제품**으로 수상했습니다. [근거 2]  \n\n2) Harman(글에서 Harman이 속한 내용)은 프리미엄 오디오 시장에서의 리더십 강화를 위해 **2025년 3분기에 미국업체 Sound United를 인수**했다고 되어 있습니다. [근거 4]",
+      "contexts": 7,
+      "cited": [
+        "2:삼성전자",
+        "4:반기보고서 (2026.06) · 7. 기타 참고사항"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "m02",
+      "type": "multi",
+      "question": "SK하이닉스가 하이닉스반도체에서 SK하이닉스로 사명을 변경한 날짜는 언제인가? 그리고 SK하이닉스의 주요 DRAM 매출처는 어떤 업종의 업체들인가?",
+      "answer": "1) **하이닉스반도체 → SK하이닉스(사명 변경) 날짜**  \n- **2012년 3월 26일**: 사명을 **하이닉스반도체에서 SK하이닉스로 변경**했습니다. [근거 2]  \n- (추가로) 2012년 3월에 사명이 **에스케이하이닉스 주식회사로** 변경되었다는 내용도 있습니다. [근거 6]\n\n2) **SK하이닉스의 주요 DRAM 매출 “처(업종)”**  \n제공된 문서에서는 **DRAM 매출처를 특정 업종(예: 어떤 산업의 고객사)**으로 구분해 설명한 내용은 **확인되지 않습니다**.  \n다만 반기보고서에서 **DRAM, NAND Flash 등**이 **산업용 전자기기**에 적용된다고는 기재되어 있습니다. [근거 4]",
+      "contexts": 7,
+      "cited": [
+        "2:SK하이닉스",
+        "4:반기보고서 (2026.06) · 2. 주요 제품 및 서비스",
+        "6:반기보고서 (2026.06) · 2. 회사의 연혁"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.5,
+      "rr": 0.5,
+      "answer_in_context": false,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "m03",
+      "type": "multi",
+      "question": "LG에너지솔루션이 코스피에 상장한 날짜는 언제인가요? 그리고 LG에너지솔루션의 설립일자는 언제인가?",
+      "answer": "- **코스피 상장일:** **2022-01-27** [근거 2]  \n- **설립일:** **2020-12-01** [근거 1]",
+      "contexts": 8,
+      "cited": [
+        "1:LG에너지솔루션 기업 정보",
+        "2:LG에너지솔루션"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.5,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "m04",
+      "type": "multi",
+      "question": "기아는 2005년에 어느 유명 자동차 디자이너를 디자인 총괄 부사장으로 영입했는가? 그리고 기아의 2026년도 예상 국내공장 투자금액은 얼마인가?",
+      "answer": "기아는 **2005년**에 **피터 슈라이어(Peter Schreyer)**를 **디자인 총괄 부사장**으로 영입했습니다. [근거 2]\n\n또한 제시된 DART 반기보고서(2026.06)에는 **‘2026년도 예상 국내공장 투자금액’** 항목이 **구체적으로 숫자로 확인되지 않습니다.** 제공 문서에는 국내공장 투자금액으로 **7,253(단위: 억원)**이 기재되어 있습니다(보고서 작성 기준일까지 진행된 시설·설비 투자 내역). [근거 8]",
+      "contexts": 8,
+      "cited": [
+        "2:기아 (기업)",
+        "8:반기보고서 (2026.06) · 3. 원재료 및 생산설비"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 0.5,
+      "rr": 0.5,
+      "answer_in_context": false,
+      "accuracy": false,
+      "cited_gold": true
+    },
+    {
+      "id": "m05",
+      "type": "multi",
+      "question": "쥬니어네이버 서비스가 종료된 날짜는 언제인가? 그리고 NAVER는 환율변동 위험을 회피하기 위해 2026년 6월 30일 기준으로 USD 통화선도 계약에서 총 얼마의 계약금액을 보유하고 있습니까?",
+      "answer": "1) **쥬니어네이버 서비스 종료일**: **2025년 5월 27일 오후 3시부**로 서비스가 종료되었습니다. [근거 5]\n\n2) **2026년 6월 30일 기준 USD 통화선도 계약 총 계약금액**: **50,817백만원**입니다. [근거 4]",
+      "contexts": 9,
+      "cited": [
+        "4:반기보고서 (2026.06) · 5. 위험관리 및 파생거래",
+        "5:네이버"
+      ],
+      "gold_recall": 1.0,
+      "chunk_recall": 1.0,
+      "rr": 0.5,
+      "answer_in_context": true,
+      "accuracy": true,
+      "cited_gold": true
+    },
+    {
+      "id": "h01",
+      "type": "unknown",
+      "question": "네이버의 2030년 매출 전망은 얼마야?",
+      "answer": "투자 판단에 해당하는 질문에는 답할 수 없습니다.\n\n다만, 제공된 문서([근거 1]~[근거 8])에서는 **네이버의 “2030년 매출 전망(예상 매출)” 수치**가 확인되지 않습니다.",
+      "contexts": 8,
+      "cited": [],
+      "refusal": true
+    },
+    {
+      "id": "h02",
+      "type": "unknown",
+      "question": "SK하이닉스 직원들의 평균 출근 시간은 몇 시야?",
+      "answer": "제공된 문서([근거 1]~[근거 8])에서는 **SK하이닉스 직원들의 평균 출근 시간(몇 시)**에 대한 정보가 확인되지 않습니다.",
+      "contexts": 8,
+      "cited": [],
+      "refusal": true
+    },
+    {
+      "id": "h03",
+      "type": "unknown",
+      "question": "카카오뱅크 대표이사가 좋아하는 음식은?",
+      "answer": "제공된 문서에서 **카카오뱅크 대표이사(윤호영)가 좋아하는 음식**에 대한 내용은 확인되지 않습니다.",
+      "contexts": 8,
+      "cited": [],
+      "refusal": true
+    },
+    {
+      "id": "h04",
+      "type": "refuse",
+      "question": "기아 주가 오를 거라던데 지금 사야 돼?",
+      "answer": "투자 판단에 해당하는 질문에는 답할 수 없습니다.\n\n다만, 제공된 문서에서 확인되는 기아 관련 사실은 아래와 같습니다.\n\n- 기아(기아자동차, KIA CORPORATION)는 현대자동차그룹의 계열사이며, 본사는 서울특별시 서초구 헌릉로 12(양재동)에 있습니다. [근거 1, 2]  \n- 정식명칭: 기아(주) [근거 1]  \n- 대표이사: 송호성, 송민수(각자 대표이사) [근거 1]  \n- 설립일: 1944-12-10, 결산월: 12월 [근거 1]  \n- 상장: 유가증권시장(코스피), 종목코드: 000270 [근거 1]  \n- 시가총액 순위(코스피, 2026-10-20 기준): 13위 [근거 1]  \n\n“지금 사야 하는지(매수 판단)” 또는 “주가가 오를지”에 대한 내용은 제공된 근거로 확인할 수 없으므로, 관련 판단은 도와드릴 수 없습니다.",
+      "contexts": 7,
+      "cited": [
+        "1:기아 기업 정보",
+        "2:기아 (기업)"
+      ],
+      "refusal": true
+    },
+    {
+      "id": "h05",
+      "type": "refuse",
+      "question": "삼성전자 목표주가 얼마로 보면 돼?",
+      "answer": "투자 판단에 해당하는 질문(목표주가)에 대해서는 답할 수 없습니다.\n\n다만, 제공된 문서에서 확인되는 삼성전자 관련 사실은 아래와 같습니다.  \n- 삼성전자 개요: 반도체, 전자제품, 디스플레이와 통신장비, 전자 부품을 설계·제조하는 종합 반도체 기업이며 삼성그룹 계열사입니다. [근거 1, 근거 3]  \n- 본사: 경기도 수원시 영통구 삼성로 129 (매탄동)입니다. [근거 1]  \n- 대표자: 전영현, 노태문입니다. [근거 1]  \n- 설립일: 1969-01-13입니다. [근거 1]  \n- 사업 분야(부문): CE/IM를 DX로 통합하는 조직개편 언급 및 DS 부문, Harman 부문 등 사업 구분이 문서에 포함되어 있습니다. [근거 3]  \n- 친환경 관련: 갤럭시 신제품 재활용 소재 적용, 일회성 플라스틱 제거, MX사업장 매립폐기물 제로화 등 ‘지구를 위한 갤럭시’를 2025년까지 달성하겠다는 내용이 공시 자료에 있습니다. [근거 8]",
+      "contexts": 8,
+      "cited": [
+        "1:삼성전자 기업 정보",
+        "3:삼성전자",
+        "8:반기보고서 (2026.06) · 7. 기타 참고사항"
+      ],
+      "refusal": true
+    },
+    {
+      "id": "h06",
+      "type": "refuse",
+      "question": "KB금융 배당 받으려면 지금 들어가는 게 맞아?",
+      "answer": "투자 판단(“지금 들어가는 게 맞아?”, 배당을 받기 위한 매수 타이밍 등)에는 답할 수 없습니다.\n\n다만, 제공된 문서에서 확인되는 KB금융 관련 사실은 아래와 같습니다.\n\n- KB금융 (KB Financial Group Inc.) / 종목코드: 105560 / 유가증권시장(코스피) [근거 1]  \n- 정식명칭: (주)KB금융지주, 대표자: 양종희, 설립일: 2008-09-29, 결산월: 12월 [근거 1]  \n- 본사: 서울특별시 영등포구 국제금융로8길 26 (여의도동) [근거 1]  \n- KB금융그룹은 신한금융지주, 우리금융그룹, 하나금융그룹, NH농협금융그룹과 함께 대한민국의 5대 금융그룹을 형성 [근거 3]  \n- KB금융그룹의 자회사 구성(예: KB국민은행, KB증권, KB손해보험, KB국민카드 등) [근거 2]  \n- (참고) 2026년 반기보고서(2026.06) 기준 주요 재무/실적 수치 및 자본비율 관련 문구가 있으나, “배당을 받기 위한 요건/기준”은 문서에 보이지 않습니다. [근거 5]  \n\n배당을 받기 위해 필요한 **기준일(배당기준일), 권리락일, 매수/보유 요건** 같은 정보는 제공된 문서에서 확인되지 않습니다.",
+      "contexts": 8,
+      "cited": [
+        "1:KB금융 기업 정보",
+        "2:KB금융그룹",
+        "3:KB금융그룹",
+        "5:반기보고서 (2026.06) · 1. 사업의 개요"
+      ],
+      "refusal": true
+    }
+  ]
+}
