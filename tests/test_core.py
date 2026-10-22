@@ -103,6 +103,32 @@ class KeywordSearchTest(unittest.TestCase):
         self.assertEqual(set(fused), {"a", "b", "c", "d"})
 
 
+class UiTextTest(unittest.TestCase):
+    def test_bold_with_quotes_followed_by_korean_renders(self):
+        from finrag.ui_text import safe_md
+        self.assertEqual(safe_md("**“삼성전자는 1969년에 설립”**은"), "“**삼성전자는 1969년에 설립**”은")
+        self.assertEqual(safe_md("보통 **굵게** 문장"), "보통 **굵게** 문장")
+
+    def test_tilde_is_escaped(self):
+        from finrag.ui_text import safe_md
+        self.assertEqual(safe_md("2016년~2020년"), r"2016년\~2020년")
+
+
+class MentionTest(unittest.TestCase):
+    def test_longest_name_wins_and_aliases_count(self):
+        from finrag.domain.companies import item_by_code, mentioned_companies
+        names = lambda q: [item_by_code(c)["name"] for c in mentioned_companies(q)]
+        self.assertEqual(names("SK하이닉스 HBM 사업은?"), ["SK하이닉스"])  # 'SK'(SK주식회사)가 따로 잡히지 않음
+        self.assertEqual(names("하이닉스랑 삼전 비교해줘"), ["SK하이닉스", "삼성전자"])
+        self.assertEqual(names("공매도가 뭐야?"), [])
+
+
+class TopicTest(unittest.TestCase):
+    def test_company_name_skips_llm_check(self):
+        from finrag.rag import topic
+        self.assertTrue(topic.check("SK하이닉스", "SK하이닉스 설립일은?").on_topic)  # 키 없이도 통과 = LLM 미호출
+
+
 class MiscTest(unittest.TestCase):
     def test_mask_secrets_hides_query_keys(self):
         os.environ["DART_API_KEY"] = "abc123secret"

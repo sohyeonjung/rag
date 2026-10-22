@@ -304,9 +304,9 @@ def _():
 def _():
     vals = [l.split("=", 1)[1].strip() for l in (ROOT / ".env").read_text(encoding="utf-8").splitlines()
             if "=" in l and l.split("=", 1)[0] in ("GMS_KEY", "DART_API_KEY", "DATA_GO_KR_KEY")]
-    files = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True).stdout.split()
+    files = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout.split()
     hits = [f for f in files for v in vals if len(v) > 8 and v in (ROOT / f).read_text(encoding="utf-8", errors="ignore")]
-    ignored = subprocess.run(["git", "check-ignore", ".env"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    ignored = subprocess.run(["git", "check-ignore", ".env"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout.strip()
     return not hits and ignored == ".env", f"추적 파일 {len(files)}개 중 키 노출 {len(hits)}건 · .env는 .gitignore 대상"
 
 
