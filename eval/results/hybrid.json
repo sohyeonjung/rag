@@ -5,15 +5,16 @@
     "model": "gpt-5.4-nano",
     "search_type": "similarity",
     "top_k": 6,
+    "seconds": 141.1,
     "decompose": true,
     "hybrid": true,
-    "seconds": 141.1,
+    "rescored": "2026-10-22",
     "n": 54,
     "gold_recall": 1.0,
     "chunk_recall": 0.96875,
     "mrr": 0.4733796296296296,
     "answer_in_context": 0.9791666666666666,
-    "accuracy": 0.9375,
+    "accuracy": 0.9166666666666666,
     "cited_gold": 0.9583333333333334,
     "refusal": 1.0,
     "by_type": {
@@ -36,7 +37,7 @@
       "multi": {
         "gold_recall": 1.0,
         "chunk_recall": 0.9,
-        "accuracy": 1.0,
+        "accuracy": 0.8,
         "refusal": null,
         "n": 5,
         "mrr": 0.5
@@ -789,8 +790,9 @@
       "chunk_recall": 0.5,
       "rr": 0.5,
       "answer_in_context": false,
-      "accuracy": true,
-      "cited_gold": true
+      "accuracy": false,
+      "cited_gold": true,
+      "manual_review": "답변이 '매출처 업종은 확인되지 않는다(예: 서버 업체, 모바일 업체 등)'고 했는데, 예시로 든 '모바일'이 정답 키워드와 일치해 정답으로 채점됨. 정답 청크(주요 매출처)는 검색되지 않았음"
     },
     {
       "id": "m03",
