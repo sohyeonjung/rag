@@ -65,7 +65,34 @@ class DartParseTest(unittest.TestCase):
         from finrag.collect.dart_report import _clean
         xml = ("<P>가. 주요 제품</P><TABLE><TR><TH>부 문</TH><TH>매출액</TH></TR>"
                "<TR><TD><P>DS</P></TD><TE>2,092,317</TE></TR></TABLE>")
-        self.assertEqual(_clean(xml), "가. 주요 제품\n부 문 | 매출액\nDS | 2,092,317")
+        self.assertEqual(_clean(xml), "가. 주요 제품\n[표 머리글] 부 문 | 매출액\nDS | 2,092,317\n[표 끝]")
+
+    def test_merged_cells_are_expanded_to_align_columns(self):
+        from finrag.collect.dart_report import _clean
+        xml = ('<TABLE><THEAD><TR><TH ROWSPAN="2">자산</TH><TH ROWSPAN="2">소재지</TH><TH COLSPAN="2">당기증감</TH>'
+               '<TH ROWSPAN="2">기말</TH></TR><TR><TH>증가</TH><TH>감소</TH></TR></THEAD>'
+               '<TR><TD ROWSPAN="2">건설중인자산</TD><TD>미국</TD><TD>5,719</TD><TD>0</TD><TD>5,719</TD></TR>'
+               '<TR><TD>프랑스</TD><TD>1,232</TD><TD>0</TD><TD>7,928</TD></TR></TABLE>')
+        self.assertEqual(_clean(xml).splitlines(), [
+            "[표 머리글] 자산 | 소재지 | 당기증감-증가 | 당기증감-감소 | 기말",
+            "건설중인자산 | 미국 | 5,719 | 0 | 5,719",
+            "건설중인자산 | 프랑스 | 1,232 | 0 | 7,928",
+            "[표 끝]",
+        ])
+
+    def test_table_header_repeats_in_every_chunk(self):
+        from finrag.collect.dart_report import _clean
+        from finrag.store.chunking import split_dart
+        rows = "".join(f"<TR><TD>지역{i:03d}</TD><TD>{i * 1000:,}</TD></TR>" for i in range(300))
+        xml = f"<P>표 설명</P><TABLE><THEAD><TR><TH>소재지</TH><TH>기말장부금액</TH></TR></THEAD>{rows}</TABLE><P>표 다음 문단</P>"
+        chunks = split_dart(_clean(xml))
+        self.assertGreater(len(chunks), 2)
+        table_chunks = [c for c in chunks if "지역" in c]
+        self.assertTrue(all(c.splitlines()[0] == "[표 머리글] 소재지 | 기말장부금액" for c in table_chunks[1:]))
+        self.assertTrue(all(len(c) <= 1500 for c in chunks))
+        self.assertNotIn("[표 끝]", "".join(chunks))
+        self.assertIn("표 다음 문단", chunks[-1])
+        self.assertNotIn("[표 머리글]", chunks[-1].split("표 다음 문단")[-1])
 
 
 class GlossaryTest(unittest.TestCase):
