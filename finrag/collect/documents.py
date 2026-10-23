@@ -17,7 +17,7 @@ from finrag.config import settings
 from finrag.domain import prompts
 from finrag.domain.companies import build_item_text
 from finrag.llm import chat
-from finrag.store.chunking import split
+from finrag.store.chunking import split, split_dart
 from finrag.store.vectorstore import collection
 
 Progress = Callable[[str], None]
@@ -101,7 +101,7 @@ def index_dart(item: dict, progress: Progress) -> tuple[str, int]:
 
     docs, ids = [], []
     for sec in dart_report.sections(report["rcept_no"]):
-        for chunk in split(sec["text"], "dart"):
+        for chunk in split_dart(sec["text"]):
             seq = len(docs)
             ids.append(f"{item['stock_code']}:dart:{report['rcept_no']}:{seq}")
             docs.append(Document(page_content=f"[{sec['section']}]\n{chunk}", metadata={

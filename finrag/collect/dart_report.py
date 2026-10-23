@@ -54,24 +54,84 @@ def _plain(fragment: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", fragment))).strip()
 
 
-def _row(match: re.Match) -> str:
-    cells = [_plain(c) for c in re.findall(r"<T[DHEU][^>]*>(.*?)</T[DHEU]>", match.group(0), flags=re.S)]
-    return " | ".join(c for c in cells if c) + "\n"
+# 표 머리글 행과 표 끝 표시. 청킹(store/chunking.split_dart)이 이것을 보고 청크마다 머리글을 다시 붙인다.
+# 긴 표가 여러 청크로 나뉘면 뒤쪽 청크에는 숫자 행만 남아 어느 값이 어느 열인지 알 수 없었다 (트러블슈팅 #13)
+TABLE_HEAD = "[표 머리글] "
+TABLE_END = "[표 끝]"
+
+
+def _span(attrs: str, name: str) -> int:
+    m = re.search(rf'{name}="(\d+)"', attrs)
+    return max(int(m.group(1)), 1) if m else 1
+
+
+def _table(match: re.Match) -> str:
+    """표 하나 → 행마다 한 줄. 합친 칸(ROWSPAN·COLSPAN)을 펼쳐 모든 행의 칸 수를 머리글과 맞춘다.
+
+    펼치지 않으면 '토지 | 본사 및 본사 외 | 등기 | 분당 | …' 다음 행이 '등기 | 세종 | …'처럼 앞 칸이 빠져,
+    열 이름과 값이 어긋났다(프랑스 건설중인자산 '기말장부금액'을 묻자 다른 칸 값 0을 답함).
+    여러 줄 머리글은 열마다 이어 붙인다: '당기증감' + '증가' → '당기증감-증가'.
+    """
+    grid: list[tuple[bool, list[str]]] = []
+    carry: dict[int, tuple[str, int]] = {}  # 열 → (위에서 내려온 값, 남은 행 수)
+    for tr in re.findall(r"<TR[^>]*>(.*?)</TR>", match.group(0), flags=re.S):
+        cells = re.findall(r"<(T[DHEU])([^>]*)>(.*?)</\1>", tr, flags=re.S)
+        if not cells:
+            continue
+        is_head = all(tag == "TH" for tag, _, _ in cells)
+        row: list[str] = []
+
+        def take_carried() -> None:
+            while len(row) in carry:
+                text, left = carry.pop(len(row))
+                if left > 1:
+                    carry[len(row)] = (text, left - 1)
+                row.append(text)
+
+        for _, attrs, body in cells:
+            take_carried()
+            text, rows, cols = _plain(body), _span(attrs, "ROWSPAN"), _span(attrs, "COLSPAN")
+            for k in range(cols):
+                value = text if k == 0 or is_head else ""  # 값 칸을 가로로 합친 경우는 한 번만 쓴다
+                if rows > 1:
+                    carry[len(row)] = (value, rows - 1)
+                row.append(value)
+        take_carried()
+        grid.append((is_head, row))
+
+    lines: list[str] = []
+    i = 0
+    while i < len(grid):
+        if grid[i][0]:  # 연속된 머리글 행을 열 이름 한 줄로
+            heads = []
+            while i < len(grid) and grid[i][0]:
+                heads.append(grid[i][1])
+                i += 1
+            width = max(len(h) for h in heads)
+            names = []
+            for j in range(width):
+                parts = [h[j] for h in heads if j < len(h) and h[j]]
+                names.append("-".join(dict.fromkeys(parts)))
+            lines.append(TABLE_HEAD + " | ".join(names))
+        else:
+            lines.append(" | ".join(grid[i][1]))
+            i += 1
+    return "\n" + "\n".join(lines) + f"\n{TABLE_END}\n"
 
 
 def _clean(fragment: str) -> str:
     """XML 조각 → 평문. 표는 행마다 한 줄, 칸은 ' | '로 이어 문장처럼 읽히게 한다.
 
-    칸 안에 <P>가 들어 있어 그냥 태그를 지우면 칸마다 줄이 바뀐다 → 행(<TR>) 단위로 먼저 평문화한다.
+    칸 안에 <P>가 들어 있어 그냥 태그를 지우면 칸마다 줄이 바뀐다 → 표(<TABLE>) 단위로 먼저 평문화한다.
     """
-    s = re.sub(r"<TR[^>]*>.*?</TR>", _row, fragment, flags=re.S)
+    s = re.sub(r"<TABLE[^>]*>.*?</TABLE>", _table, fragment, flags=re.S)
     s = re.sub(r"</P>|<BR\s*/?>|<PGBRK[^>]*>", "\n", s)
     s = re.sub(r"<[^>]+>", "", s)
     s = html.unescape(s)
     lines = []
     for line in s.split("\n"):
         line = re.sub(r"\s+", " ", line).strip(" |")
-        if line and line not in ("-", "|"):
+        if line and line not in ("-", "|", TABLE_HEAD.strip()):
             lines.append(line)
     return "\n".join(lines)
 
