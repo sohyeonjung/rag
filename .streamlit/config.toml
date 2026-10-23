@@ -1,3 +1,7 @@
 [server]
 # 코드를 저장하면 서버를 다시 켜지 않아도 화면이 새 코드로 다시 실행된다 (개발 중 편의)
 runOnSave = true
+
+[client]
+# 시연 화면에 개발용 메뉴(Deploy 등)를 보이지 않게
+toolbarMode = "minimal"
