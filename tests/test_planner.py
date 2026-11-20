@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 from fastapi.testclient import TestClient
-from planner.agent import run_chat, judge_financial
+from planner.agent import run_chat, judge_financial, llm_error
 from planner.models import ChatIn, Conditions, Interpretation, WorkPlan
 from planner.storage import Store
 from planner.events import EventBus
@@ -68,6 +68,54 @@ class PlannerTests(unittest.TestCase):
     def test_greeting_has_no_tools(self):
         r=self.ask('안녕')
         self.assertFalse(any(e['kind']=='tool_request' for e in r['events']))
+
+    def planned_live(self, intent, names):
+        class DemoTools(Tools):
+            def __init__(self, mode, bus): super().__init__('demo',bus)
+        class Model:
+            def with_structured_output(self, schema, **kwargs):
+                self.schema=schema
+                return self
+            def invoke(self, prompt):
+                if self.schema is Interpretation:
+                    return Interpretation(intent=intent,updates={'count':1},reason='검증용 의도')
+                return WorkPlan(tools=names,reason='검증용 선택')
+        with patch('planner.agent.llm',return_value=Model()):
+            return run_chat(ChatIn(message='검증 요청',mode='live'),self.store,tool_factory=DemoTools)
+
+    def test_executor_uses_selected_plan_without_optional_background(self):
+        r=self.planned_live('research',['candidate_search','financial_details'])
+        calls=[e['tool'] for e in r['events'] if e['kind']=='tool_request']
+        self.assertEqual(calls,['candidate_search','financial_details'])
+        self.assertEqual(len(r['companies']),1)
+        self.assertIsNone(r['companies'][0]['background'])
+
+    def test_selected_optional_order_controls_execution(self):
+        r=self.planned_live('research',['candidate_search','background_search','financial_details'])
+        calls=[e['tool'] for e in r['events'] if e['kind']=='tool_request']
+        self.assertEqual(calls,['candidate_search','background_search','financial_details'])
+        plan=next(e['steps'] for e in r['events'] if e['kind']=='plan')
+        self.assertEqual(calls,[s['tool'] for s in plan])
+
+    def test_dependency_guard_adds_only_required_financial_tool(self):
+        r=self.planned_live('research',['candidate_search'])
+        calls=[e['tool'] for e in r['events'] if e['kind']=='tool_request']
+        self.assertEqual(calls,['candidate_search','financial_details'])
+        self.assertTrue(any(e['kind']=='plan_guard' for e in r['events']))
+
+    def test_background_request_skips_unnecessary_financials(self):
+        r=self.ask('전체 기업 1개 사업 배경만 알려줘')
+        calls=[e['tool'] for e in r['events'] if e['kind']=='tool_request']
+        self.assertEqual(calls,['candidate_search','background_search'])
+        self.assertIsNone(r['companies'][0]['financial'])
+        r=self.planned_live('background',['financial_details','background_search'])
+        self.assertEqual([e['tool'] for e in r['events'] if e['kind']=='tool_request'],calls)
+
+    def test_failure_is_not_reported_as_successful_background(self):
+        with patch.object(Tools,'background_search',side_effect=ToolFailure('NO_RESULT','배경 없음')):
+            r=self.ask('전체 기업 1개 사업 배경만 알려줘')
+        self.assertEqual(r['companies'],[])
+        self.assertTrue(r['errors'])
 
     def test_session_isolation(self):
         first=self.ask('반도체 기업 1개')
@@ -141,6 +189,18 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(r['errors'][0]['code'],'LLM_ERROR')
         self.assertFalse(any(e['kind']=='tool_request' for e in r['events']))
 
+    def test_llm_quota_failure_is_actionable_and_redacted(self):
+        class QuotaError(Exception):
+            status_code=429
+        exc=QuotaError('insufficient_quota organization_spend_limit_exceeded private-provider-payload')
+        self.assertEqual(llm_error(exc)['code'],'LLM_QUOTA')
+        with patch('planner.agent.llm',side_effect=exc):
+            r=self.ask('기업 1개',mode='live')
+        self.assertEqual(r['errors'][0]['code'],'LLM_QUOTA')
+        self.assertIn('한도',r['answer'])
+        self.assertNotIn('private-provider-payload',json.dumps(r))
+        self.assertFalse(any(e['kind']=='tool_request' for e in r['events']))
+
     def test_api_crud_overlap_logs_and_validation(self):
         with TestClient(create_app(self.store.path)) as client:
             body=dict(title='테스트 조사',research_date='2026-11-20',start_time='14:00',end_time='16:00',companies=[{'name':'가상기업'}])
@@ -163,5 +223,10 @@ class PlannerTests(unittest.TestCase):
             self.assertEqual(client.delete('/api/logs/'+r['session_id']).status_code,204)
             self.assertEqual(client.get('/api/logs/'+r['session_id']).json(),[])
             self.assertTrue(client.get('/openapi.json').json()['paths'])
+            schemas=client.get('/openapi.json').json()['components']['schemas']
+            self.assertIn('ChatOut',schemas)
+            self.assertIn('PlanSaved',schemas)
+            catalog=client.get('/api/tools').json()
+            self.assertEqual(catalog[0]['output_schema']['type'],'object')
 
 if __name__=='__main__': unittest.main()
