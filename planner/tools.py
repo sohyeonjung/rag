@@ -7,7 +7,7 @@ from datetime import date, timedelta
 from urllib.parse import unquote
 import requests
 from pydantic import Field, ValidationError
-from planner.models import StrictModel
+from planner.models import StrictModel, ToolResult
 from planner.config import ROOT, today
 from planner import fixtures
 
@@ -41,7 +41,7 @@ CATALOG = [
 
 def tool_specs():
     return [dict(name=n, type=t, description=d, input_schema=s.model_json_schema(),
-                 output_schema={'ok': 'boolean', 'data': 'object|null', 'error': '{code,message}|null'}) for n,s,t,d in CATALOG]
+                 output_schema=ToolResult.model_json_schema()) for n,s,t,d in CATALOG]
 
 def key(name):
     value = os.getenv(name, '').strip()

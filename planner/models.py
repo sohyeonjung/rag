@@ -17,7 +17,7 @@ class Conditions(StrictModel):
     exclude_codes: list[str] = Field(default_factory=list, max_length=100)
 
 class Interpretation(StrictModel):
-    intent: Literal['research', 'greeting', 'help', 'rag', 'clarify']
+    intent: Literal['research', 'background', 'greeting', 'help', 'rag', 'clarify']
     updates: dict = Field(default_factory=dict, description='Only fields explicitly set or changed by this message; null clears optional fields.')
     different_candidates: bool = False
     reason: str = Field(max_length=400)
@@ -47,3 +47,44 @@ class PlanIn(StrictModel):
         if self.end_time <= self.start_time:
             raise ValueError('종료 시각은 시작 시각보다 늦어야 합니다. 날짜를 넘기는 일정은 나누어 저장하세요.')
         return self
+
+class PlanOut(PlanIn):
+    id: str
+    created_at: str
+    updated_at: str
+
+class PlanSaved(StrictModel):
+    plan: PlanOut
+    overlapping_plan_ids: list[str]
+    warning: str
+
+class ChatOut(StrictModel):
+    session_id: str
+    run_id: str
+    mode: Literal['demo','live']
+    answer: str
+    conditions: Conditions
+    companies: list[dict]
+    excluded: list[dict]
+    errors: list[dict]
+    notes: list[str]
+    rag: dict
+    replans: int
+    elapsed_ms: int
+    disclaimer: str
+    events: list[dict]
+    logging_failed: bool
+
+class LogSession(StrictModel):
+    session_id: str
+    event_count: int
+    last_seq: int
+
+class ToolError(StrictModel):
+    code: str
+    message: str
+
+class ToolResult(StrictModel):
+    ok: bool
+    data: dict | None
+    error: ToolError | None

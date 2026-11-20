@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from planner.config import ROOT, redact
-from planner.models import ChatIn, PlanIn
+from planner.models import ChatIn, ChatOut, PlanIn, PlanOut, PlanSaved, LogSession
 from planner.storage import Store
 from planner.agent import run_chat
 from planner.tools import tool_specs
@@ -37,27 +37,27 @@ def create_app(db_path=None):
     def specs():
         return tool_specs()
 
-    @app.post('/api/chat')
+    @app.post('/api/chat', response_model=ChatOut)
     def chat(body:ChatIn):
         with locks[hash(body.session_id or '') % len(locks)]:
             return redact(run_chat(body,store))
 
-    @app.get('/api/plans')
+    @app.get('/api/plans', response_model=list[PlanOut])
     def plans():
         return store.plans()
 
-    @app.post('/api/plans',status_code=201)
+    @app.post('/api/plans',status_code=201,response_model=PlanSaved)
     def save(body:PlanIn):
         return store.save_plan(body.model_dump(mode='json'))
 
-    @app.get('/api/plans/{identifier}')
+    @app.get('/api/plans/{identifier}', response_model=PlanOut)
     def plan(identifier:str):
         value = store.plan(identifier)
         if not value:
             raise HTTPException(404,'계획을 찾지 못했습니다.')
         return value
 
-    @app.put('/api/plans/{identifier}')
+    @app.put('/api/plans/{identifier}', response_model=PlanSaved)
     def update(identifier:str, body:PlanIn):
         try:
             return store.save_plan(body.model_dump(mode='json'),identifier)
@@ -69,11 +69,11 @@ def create_app(db_path=None):
         if not store.delete_plan(identifier):
             raise HTTPException(404,'계획을 찾지 못했습니다.')
 
-    @app.get('/api/logs')
+    @app.get('/api/logs', response_model=list[LogSession])
     def logs():
         return store.log_sessions()
 
-    @app.get('/api/logs/{session}')
+    @app.get('/api/logs/{session}', response_model=list[dict])
     def detail(session:str):
         return store.logs(session)
 
