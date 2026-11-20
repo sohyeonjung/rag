@@ -32,3 +32,14 @@ logs/
 
 # 로컬 도구 설정
 .claude/
+
+# Core 3 local state and private verification data
+data/planner.sqlite*
+data/live-verification/
+output/
+tmp/
+
+# Local reports and packaging helpers
+docs/core3/
+scripts/package_planner.py
+scripts/verify_planner.py

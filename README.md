@@ -1,3 +1,15 @@
+# FinScope · 기업 리서치 플래너
+
+FastAPI와 LangGraph로 기업 탐색, 재무 조건 검증, 조사 일정 및 실행 기록을 관리합니다.
+
+- [플래너 실행 방법과 구조](README_CORE3.md)
+- 외부 API 3종·GMS·후속 조건 유지·재계획 상한 실연동 확인
+- 테스트: `python -m unittest discover -s tests` (48개 통과)
+
+아래는 기존 RAG 프로젝트 설명입니다.
+
+---
+
 # 상장기업 리서치 서비스 — 근거로 답하는 RAG
 
 코스피 시가총액 상위 100개 기업에 대한 질문을 **공개 문서(한국어 위키백과 · DART 공시 · 한국은행 경제금융용어)** 를 근거로만 답하고,
@@ -151,3 +163,5 @@ python -m unittest discover -s tests
 ```bash
 python scripts/index_glossary.py        # data/raw/ 에 800선 PDF를 둔 뒤 실행
 ```
+
+계획에 선택된 Tool만 순서대로 실행합니다. 사업 배경 전용 요청은 재무 조회를 생략하고, 재무 조건 판단에는 기업 식별·재무 조회 의존성을 검증합니다. API 응답과 Tool 성공/실패 계약은 JSON Schema로 제공합니다. LLM의 크레딧·호출 한도 오류는 설정 오류와 구분해 안내합니다.
